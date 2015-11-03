@@ -40,7 +40,7 @@ app.use(function(req,res,next){
 app.use('/', routes);
 app.use('/users', users);
 
-// app.post( '/create', routes.create );
+app.post( '/create', routes.create );
 // app.use( '/', routes.index );
 
 

@@ -2,11 +2,19 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require( 'mongoose' );
-var Todo     = mongoose.model( 'Todo' );
+var Task     = mongoose.model( 'Task' );
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  Task.find( function ( err, tasks, count ){
+    // console.log(todos)
+    // console.log(count)
+    console.log("Hi!")
+    res.render( 'index', {
+      title : 'Express Todo Example',
+      tasks : tasks
+    });
+  });
 });
 
 /* GET Userlist page. */
@@ -23,28 +31,28 @@ router.get('/userlist', function(req, res) {
 
 //Redirect the page back to index after the record is created.
 router.create = function ( req, res ){
-  console.log("I'm gonna make something!")
-  new Todo({
-    content    : req.body.content,
+  new Task({
+    agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
+    type       : req.body.mytype, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
+    duration   : req.body.duration, // some time; autopopulate for robot?
     updated_at : Date.now()
     })
-    .save( function( err, todo, count ){
-    console.log(req.body.content)
+    .save( function( err, task, count ){
     res.redirect( '/' );
   });
 };
 
-// query db for all todo items
-router.index = function ( req, res ){
-  Todo.find( function ( err, todos, count ){
-    console.log(todos)
-    // console.log(count)
-    console.log("Hi!")
-    res.render( 'index', {
-      title : 'Express Todo Example',
-      todos : todos
-    });
-  });
-};
+// // query db for all todo items
+// router.index = function ( req, res ){
+//   Todo.find( function ( err, todos, count ){
+//     // console.log(todos)
+//     // console.log(count)
+//     console.log("Hi!")
+//     res.render( 'index', {
+//       title : 'Express Todo Example',
+//       todos : todos
+//     });
+//   });
+// };
 
 module.exports = router;

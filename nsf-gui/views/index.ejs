@@ -128,31 +128,31 @@
         <div id="snaptarget" class="ui-widget-header">
             <p> Computer Timeline </p>
         </div>
-        
-        <input id="AddDiv" type="submit" value="Add Div">
-        
-        <div id="draggables" >
-            <div id="draggable3" class="draggable ui-widget-content draggableDiv">
-                <p>I only snap to the innner edges of the big boxes</p>
-            </div>
-            <div id="draggable3" class="draggable ui-widget-content draggableDiv">
-                <p>I only snap to the innner edges of the big boxes</p>
-            </div>
-            
-
-        </div>
-        
+                
         <br style="clear:both">
 
         <form action="/create" method="post" accept-charset="utf-8">
-          <input type="text" name="content" />
-        </form>
+          Agent: (robot or human)<br>
+          <input type="text" name="agent" /> <br>
+          Type: (grasp, ungrasp, etc.)<br>
+          <input type="text" name="mytype" /> <br>
+          Duration: <br>
+          <input type="text" name="duration" /> <br><br>
+          <input type="submit" value="Submit">
+        </form> <br> <br>
+
+        <div id="draggables" >
+            <div id="draggable3" class="draggable ui-widget-content draggableDiv">
+                <p>I am an example draggable task.</p>
+            </div>
+        </div>
 
     <!-- // use a loop to show all todo items at the very bottom. -->
-        <% todos.forEach( function( todo ){ %>
-          <p><%= todo.content %></p>
+        <% tasks.forEach( function( task ){ %>
+            <div id="draggable3" class="draggable ui-widget-content draggableDiv">
+                <p><%= task.id %>, <%= task.agent %>, <%= task.type %>, <%= task.duration %></p>
+            </div>
         <% }); %>
-        <%= title %>
         
 
     </div>
