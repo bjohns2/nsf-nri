@@ -33,7 +33,7 @@
     </style>
     <!-- Style that should go in a separate file at some point -->
     <style>
-        .draggable { width: 90px; height: 80px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em;}
+        .draggable { width: 220px; height: 300px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em; background: transparent;}
         .ui-widget-header p, .ui-widget-content p { margin: 0; }
         #snaptarget { height: 140px;}
     </style>
@@ -86,13 +86,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Model</a>
+                <a class="navbar-brand" href="/">Model</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="refine.html">Refine</a>
+                        <a href="refine">Refine</a>
                     </li>
                     <li>
                         <a href="#">Train</a>
@@ -122,43 +122,128 @@
         </div>
         <!-- /.row -->
         <div id="snaptarget" class="ui-widget-header">
-            <p> Human Timeline </p>
+            <p> Tasks </p>
+            <% tasks.forEach( function( task ){ %>
+                 <div id="<%= task.id %>" class="draggable ui-widget-content draggableDiv"> <!--id used to be draggable3-->
+                    <div>
+                      <a href="/destroy/<%= task.id %>" title="Delete">Delete</a>
+                    </div>
+                    <br>
+                    <div style="border-style: solid;background:white">
+                        <p>ID: <%= task.id %> <br>Agent:  <%= task.agent %><br>Description: <%= task.descript %><br>Duration: <%= task.duration %> <br>Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %></p>
+                    </div>
+ <!--                    <div style="position:relative">
+                        <div style="position:absolute;border-style:none solid none none;width:80px;height:70px" class=".col-md-4"></div>
+                        <div style="position:absolute;top:70px;height:20px;width:80px;border-style:solid;background:white" class=".col-md-4"><%= task.skills %></div>
+                        <div style="position:absolute;left:80px;height:50px;width:40px;border-style: none solid none none;" class=".col-md-4"></div>
+                        <% task.skills.forEach( function( skill ){ %>
+                        <div style="position:absolute;left:118px;top:40px;height:20px;width:80px;border-style:solid;background:white" class=".col-md-4"><%= skill %></div>
+                         <% }); %>
+                    </div> -->
+   <!--                  <div class="row" style="border-style:solid">
+                        <div class="col-md-3">hi</div>
+                        <div class="col-md-6">hi</div>
+                        <div class="col-md-3">hi</div>
+                    </div> -->
+                    <div style="position:relative">
+                       <table style="width:100%;">
+                          <tr >
+                            <td style="width:80px;">
+                                <div style="height:70px;">  
+                                </div>
+                                <% task.tools.forEach( function( tool ){ %>
+                                    <div style="border-style:solid;"> <%= tool %>
+                                    </div>
+                                <% }); %>
+                            </td>
+                            <td style="border-style:solid;widtH:40px">
+                            </td> 
+                            <td style="width:80px">
+                                <div style="height:90px"> 
+                                </div>
+                                <% task.skills.forEach( function( skill ){ %>
+                                    <div style="border-style:solid;"> <%= skill %>
+                                    </div>
+                                <% }); %>
+                            </td>
+                          </tr>
+                          
+                        </table>
+                    </div>
+                </div>
+            <% }); %>
+
         </div>
         
         <div id="snaptarget" class="ui-widget-header">
-            <p> Computer Timeline </p>
+            <p> Skills and Tools </p>
         </div>
                 
-        <br style="clear:both">
 
+        <br><br><br>
         <form action="/create" method="post" accept-charset="utf-8">
-          Agent: (robot or human)<br>
-          <input type="text" name="agent" /> <br>
-          Type: (grasp, ungrasp, etc.)<br>
-          <input type="text" name="mytype" /> <br>
-          Duration: <br>
-          <input type="text" name="duration" /> <br><br>
-          <input type="submit" value="Submit">
+            Agent: (robot or human)<br>
+                <input type="radio" name="agent" value="robot" checked> Robot
+                <br>
+                <input type="radio" name="agent" value="human"> Human
+                <br>
+            Task Description: <br>
+                <input type="text" name="descript" /> <br>
+            Duration: <br>
+                <input type="text" name="duration" /> <br>
+            Skills: <br>
+                <input type="checkbox" name="skills[]" value="move"> Move
+                <br>
+                <input type="checkbox" name="skills[]" value="rotate"> Rotate
+                <br>
+            Tools: <br>
+                <input type="checkbox" name="tools[]" value="rotator"> Rotator
+                <br>
+                <input type="checkbox" name="tools[]" value="fastener"> Fastener
+                <br>
+            Parents: <br>
+                <% tasks.forEach( function( task ){ %>
+                    <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.id %>
+                    <br>
+                <% }); %>
+            <input type="submit" value="Submit">
         </form> <br> <br>
 
-        <div id="draggables" >
-            <div id="draggable3" class="draggable ui-widget-content draggableDiv">
-                <p>I am an example draggable task.</p>
-            </div>
+        <div>
+            <a href="/exports" title="Exports">Export All Tasks</a>
         </div>
 
-    <!-- // use a loop to show all todo items at the very bottom. -->
-        <% tasks.forEach( function( task ){ %>
-            <div id="draggable3" class="draggable ui-widget-content draggableDiv">
-                <p><%= task.id %>, <%= task.agent %>, <%= task.type %>, <%= task.duration %></p>
-            </div>
-        <% }); %>
-        
+        <br style="clear:both">
+        <button onclick="taskInventory()">Get Task Inventory</button>
+        <br>
+
+        <div ID="taskInventoryList">
+            List starts here
+        </div>
 
     </div>
     <!-- /.container -->
 
 
+
+<script>
+function taskInventory() {    //<!-- should  probably do this with database? just iterate over tasks? -->
+    var divs = document.getElementsByClassName("draggable");
+    var div2 = document.getElementById("taskInventoryList");
+    var divsList = []
+    div2.innerHTML = "List starts here"
+    for(var i = 0; i < divs.length; i++){
+        divsList.push([divs[i].id, divs[i].getBoundingClientRect().left]);
+        // div2.innerHTML += "<br>" + divs[i].id + ", " + divs[i].getBoundingClientRect().left;
+    }  
+    divsList.sort(function(a,b) {return a[1] > b[1]; });
+    console.log(divsList);
+    for(var i = 0; i < divsList.length; i++){
+        div2.innerHTML += "<br>" +divsList[i];
+    }
+
+}
+</script>
 
 
 </body>

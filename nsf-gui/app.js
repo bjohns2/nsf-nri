@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,10 +37,13 @@ app.use(function(req,res,next){
 });
 
 //routes
-app.use('/', routes);
+
 app.use('/users', users);
+app.get( '/destroy/:id', routes.destroy );
 
 app.post( '/create', routes.create );
+app.get( '/exports', routes.exports );
+app.use('/', routes);
 // app.use( '/', routes.index );
 
 
