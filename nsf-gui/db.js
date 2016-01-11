@@ -15,7 +15,7 @@ var fs = require("fs");
 // mongoose.connect( 'mongodb://localhost/todo' ); //express-todo
 
 var Task = new Schema({
-    agent      : String, // Should be either 'robot' or 'human'; this will need a binary selector
+    // agent      : String, // Should be either 'robot' or 'human'; this will need a binary selector
     descript   : String, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
     duration   : String, // some time; autopopulate for robot?
     skills     : Array,
@@ -25,10 +25,10 @@ var Task = new Schema({
 });
 
 Task.plugin(mongooseToCsv, {
-  headers: 'ID Agent Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents',
+  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents',
   constraints: {
     'ID': '_id',
-    'Agent': 'agent',
+    // 'Agent': 'agent',
     'Descript': 'descript',
     'Duration': 'duration',
     'Skills': 'skills',

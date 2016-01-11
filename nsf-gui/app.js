@@ -43,6 +43,7 @@ app.get( '/destroy/:id', routes.destroy );
 
 app.post( '/create', routes.create );
 app.get( '/exports', routes.exports );
+app.get( '/imports', routes.imports );
 app.use('/', routes);
 // app.use( '/', routes.index );
 

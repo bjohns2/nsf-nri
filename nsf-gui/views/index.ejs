@@ -130,7 +130,7 @@
                     </div>
                     <br>
                     <div style="border-style: solid;background:white">
-                        <p>ID: <%= task.id %> <br>Agent:  <%= task.agent %><br>Description: <%= task.descript %><br>Duration: <%= task.duration %> <br>Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %></p>
+                        <p>ID: <%= task.id %> <br>Description: <%= task.descript %><br>Duration: <%= task.duration %> <br>Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %></p>
                     </div>
  <!--                    <div style="position:relative">
                         <div style="position:absolute;border-style:none solid none none;width:80px;height:70px" class=".col-md-4"></div>
@@ -182,13 +182,13 @@
 
         <br><br><br>
         <form action="/create" method="post" accept-charset="utf-8">
-            Agent: (robot or human)<br>
-                <input type="radio" name="agent" value="robot" checked> Robot
-                <br>
-                <input type="radio" name="agent" value="human"> Human
-                <br>
             Task Description: <br>
-                <input type="text" name="descript" /> <br>
+                <!-- <input type="text" name="descript" /> <br> -->
+                <select name="descript">
+                    <option value="grasp">Grasp</option>
+                    <option value="move">Move</option>
+                    <option value="ungrasp">Ungrasp</option>
+                </select><br>
             Duration: <br>
                 <input type="text" name="duration" /> <br>
             Skills: <br>
@@ -211,6 +211,9 @@
 
         <div>
             <a href="/exports" title="Exports">Export All Tasks</a>
+        </div>
+        <div>
+            <a href="/imports" title="Imports">Import All Tasks</a>
         </div>
 
         <br style="clear:both">

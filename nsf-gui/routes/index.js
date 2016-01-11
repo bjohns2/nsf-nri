@@ -43,7 +43,7 @@ router.create = function ( req, res ){
   console.log(req.body.skills)
   console.log(req.body.tools)
   new Task({
-    agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
+    // agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
     descript   : req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
     duration   : req.body.duration, // some time; autopopulate for robot?
     skills     : req.body.skills, 
@@ -71,6 +71,22 @@ router.exports = function (req, res){
     .pipe(fs.createWriteStream('task_export.csv'));
   res.redirect( '/' );
 };
+
+
+router.imports = function (req, res){
+  var csv = require('./csv');
+  var csvHeaders = {
+      Task: {
+        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
+      }
+    }
+  //adjust this path to the correct location
+  // var TaskModel = mongoose.model( 'Task', Task );
+  console.log("startin?");
+  csv.importFile('/Users/bjohns/Desktop/nsf_gui/nsf-gui/task_export.csv', csvHeaders.Task.headers, 'Task');
+  res.redirect( '/' );
+};
+
 
 // // query db for all todo items
 // router.index = function ( req, res ){
