@@ -1,0 +1,5 @@
+{
+  "grasp": "arm,grasp_effort",
+  "hold": "arm,duration",
+  "release_load": "arm"
+}

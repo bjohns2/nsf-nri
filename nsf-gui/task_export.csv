@@ -1,0 +1,5 @@
+ID,Descript,Duration,Skills,Skill2,Tools,Tool2,Updated_At,Parents
+5693cf0cd75ec1bef300000a,grasp,20,rotate,,rotator,,Mon Jan 11 2016 10:49:32 GMT-0500 (EST),
+5693d227cfaa6dcaf5000003,ungrasp,30,move,,fastener,,Mon Jan 11 2016 11:02:47 GMT-0500 (EST),5693cf0cd75ec1bef300000a
+5694002ede95d10000000007,grasp,60,rotate,,rotator,,Mon Jan 11 2016 14:19:10 GMT-0500 (EST),5693cf0cd75ec1bef300000a
+56940035de95d10000000008,grasp,2,rotate,,,,Mon Jan 11 2016 14:19:17 GMT-0500 (EST),5693d227cfaa6dcaf5000003

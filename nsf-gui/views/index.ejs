@@ -16,6 +16,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
 
@@ -33,9 +34,9 @@
     </style>
     <!-- Style that should go in a separate file at some point -->
     <style>
-        .draggable { width: 220px; height: 300px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em; background: transparent;}
-        .ui-widget-header p, .ui-widget-content p { margin: 0; }
-        #snaptarget { height: 140px;}
+        .draggable { width: 220px; height: 300px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em; background: transparent;border:none;}
+        /*.ui-widget-header p, .ui-widget-content p { margin: 0; }*/
+        /*#snaptarget { height: 200px;width:900px;}*/
     </style>
     
         <!-- jQuery Version 1.11.1 -->
@@ -51,7 +52,9 @@
     <!-- Script that should go in a separate file at some point -->
     <script>
       $(function() {
-        $( ".draggableDiv" ).draggable({ snap: ".ui-widget-header", snapMode: "inner" });
+        $(".robo_param").hide();
+
+        $( ".draggableDiv" ).draggable({ axis: "x", containment: ".task-steps", scroll:true });//.draggable({ snap: ".ui-widget-header", snapMode: "inner" });
       });
         
           $(document).ready(function(){
@@ -121,77 +124,105 @@
             </div>
         </div>
         <!-- /.row -->
-        <div id="snaptarget" class="ui-widget-header">
-            <p> Tasks </p>
-            <% tasks.forEach( function( task ){ %>
-                 <div id="<%= task.id %>" class="draggable ui-widget-content draggableDiv"> <!--id used to be draggable3-->
-                    <div>
-                      <a href="/destroy/<%= task.id %>" title="Delete">Delete</a>
-                    </div>
-                    <br>
-                    <div style="border-style: solid;background:white">
-                        <p>ID: <%= task.id %> <br>Description: <%= task.descript %><br>Duration: <%= task.duration %> <br>Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %></p>
-                    </div>
- <!--                    <div style="position:relative">
-                        <div style="position:absolute;border-style:none solid none none;width:80px;height:70px" class=".col-md-4"></div>
-                        <div style="position:absolute;top:70px;height:20px;width:80px;border-style:solid;background:white" class=".col-md-4"><%= task.skills %></div>
-                        <div style="position:absolute;left:80px;height:50px;width:40px;border-style: none solid none none;" class=".col-md-4"></div>
-                        <% task.skills.forEach( function( skill ){ %>
-                        <div style="position:absolute;left:118px;top:40px;height:20px;width:80px;border-style:solid;background:white" class=".col-md-4"><%= skill %></div>
-                         <% }); %>
-                    </div> -->
-   <!--                  <div class="row" style="border-style:solid">
-                        <div class="col-md-3">hi</div>
-                        <div class="col-md-6">hi</div>
-                        <div class="col-md-3">hi</div>
-                    </div> -->
-                    <div style="position:relative">
-                       <table style="width:100%;">
-                          <tr >
-                            <td style="width:80px;">
-                                <div style="height:70px;">  
-                                </div>
-                                <% task.tools.forEach( function( tool ){ %>
-                                    <div style="border-style:solid;"> <%= tool %>
+        <div id="my_container">
+            <div style="width:100px;height:auto;float:left">
+                <br> <br> <br> <!-- TODO: this is a cheap tactic -->
+                <div class="header_rotate" style="font-size:x-large;width:100px;"> <p> Task Steps </p></div>
+                <br><br><br><br><br><br><br><br> <!-- TODO: this is still a cheap tactic -->
+                <div class="header_rotate" style="font-size:x-large;width:100px"> <p> Skills & Tools </p></div>
+            </div>
+            <div class="task-steps" style="overflow-x:scroll;overflow-y:visible">
+                <div style="width:5000px;overflow-y:visible"> <!-- TODO: this width / overflow thing is a little hacky -->
+                <!-- <p> Tasks </p> -->
+                <% tasks.forEach( function( task ){ %>
+                     <div id="<%= task.id %>" class="draggable ui-widget-content draggableDiv " style="float:left;position:static"> <!--id used to be draggable3-->
+                        <div>
+                          <a href="/destroy/<%= task.id %>" title="Delete">Delete</a>
+                        </div>
+                        <br>
+                        <div style="border-style: solid;background:white">
+                            <p>ID: <%= task.id %> <br>Description: <%= task.descript %><br>Duration: <%= task.duration %> <br>Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %></p>
+                        </div>
+     <!--                    <div style="position:relative">
+                            <div style="position:absolute;border-style:none solid none none;width:80px;height:70px" class=".col-md-4"></div>
+                            <div style="position:absolute;top:70px;height:20px;width:80px;border-style:solid;background:white" class=".col-md-4"><%= task.skills %></div>
+                            <div style="position:absolute;left:80px;height:50px;width:40px;border-style: none solid none none;" class=".col-md-4"></div>
+                            <% task.skills.forEach( function( skill ){ %>
+                            <div style="position:absolute;left:118px;top:40px;height:20px;width:80px;border-style:solid;background:white" class=".col-md-4"><%= skill %></div>
+                             <% }); %>
+                        </div> -->
+       <!--                  <div class="row" style="border-style:solid">
+                            <div class="col-md-3">hi</div>
+                            <div class="col-md-6">hi</div>
+                            <div class="col-md-3">hi</div>
+                        </div> -->
+                        <div style="position:relative">
+                           <table style="width:100%;">
+                              <tr >
+                                <td style="width:80px;">
+                                    <div style="height:70px;">  
                                     </div>
-                                <% }); %>
-                            </td>
-                            <td style="border-style:solid;widtH:40px">
-                            </td> 
-                            <td style="width:80px">
-                                <div style="height:90px"> 
-                                </div>
-                                <% task.skills.forEach( function( skill ){ %>
-                                    <div style="border-style:solid;"> <%= skill %>
+                                    <% task.tools.forEach( function( tool ){ %>
+                                        <div class="tools-arrow"> <%= tool %>
+                                        </div>
+                                    <% }); %>
+                                </td>
+                                <td style="width:40px;background:gray">
+                                </td> 
+                                <td style="width:80px">
+                                    <div style="height:90px"> 
                                     </div>
-                                <% }); %>
-                            </td>
-                          </tr>
-                          
-                        </table>
+                                    <% task.skills.forEach( function( skill ){ %>
+                                        <div class="skills-arrow"> <%= skill %>
+                                        </div>
+                                    <% }); %>
+                                </td>
+                              </tr>
+                              
+                            </table>
+                        </div>
                     </div>
+                <% }); %>
                 </div>
-            <% }); %>
-
+            </div>
         </div>
-        
-        <div id="snaptarget" class="ui-widget-header">
+        <br>
+       <!--  <div id="snaptarget" class="ui-widget-header" style="clear:both;float:left">
             <p> Skills and Tools </p>
-        </div>
+        </div> -->
                 
 
+    
+
         <br><br><br>
-        <form action="/create" method="post" accept-charset="utf-8">
+        <form action="/create" method="post" accept-charset="utf-8" style="clear:both">
             Task Description: <br>
                 <!-- <input type="text" name="descript" /> <br> -->
-                <select name="descript">
+  <!--               <select name="descript">
                     <option value="grasp">Grasp</option>
                     <option value="move">Move</option>
                     <option value="ungrasp">Ungrasp</option>
-                </select><br>
-            Duration: <br>
-                <input type="text" name="duration" /> <br>
-            Skills: <br>
+                </select><br> -->
+                <select id="task-choice" name="descript">
+                    <option selected value="base">Please Select</option>
+                    <option value="grasp">Grasp</option>
+                    <option value="hold">Hold</option>
+                    <option value="release_load">Release Load</option>
+                </select>
+            <br>
+            <div id="arm" class="robo_param">
+                Arm: <br>
+                    <input type="text" name="arm" /> <br>
+            </div>
+            <div id="duration" class="robo_param">
+                Duration: <br>
+                    <input type="text" name="duration" /> <br>
+            </div>
+            <div id="grasp_effort" class="robo_param">
+                Grasp Effort: <br>
+                    <input type="text" name="grasp_effort" /> <br>
+            </div>
+           <!--  Skills: <br>
                 <input type="checkbox" name="skills[]" value="move"> Move
                 <br>
                 <input type="checkbox" name="skills[]" value="rotate"> Rotate
@@ -200,12 +231,14 @@
                 <input type="checkbox" name="tools[]" value="rotator"> Rotator
                 <br>
                 <input type="checkbox" name="tools[]" value="fastener"> Fastener
-                <br>
+                <br> -->
             Parents: <br>
                 <% tasks.forEach( function( task ){ %>
                     <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.id %>
                     <br>
                 <% }); %>
+
+
             <input type="submit" value="Submit">
         </form> <br> <br>
 
@@ -214,6 +247,9 @@
         </div>
         <div>
             <a href="/imports" title="Imports">Import All Tasks</a>
+        </div>
+        <div>
+            <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a>
         </div>
 
         <br style="clear:both">
@@ -227,7 +263,42 @@
     </div>
     <!-- /.container -->
 
+        <script>
+        $("#task-choice").change(function() {
+        
+    var $dropdown = $(this);
+console.log("Hi");
+    $.getJSON("json_data/dropdown_choices.json", function(data) { 
+        console.log("Hi2");
+        var key = $dropdown.val();
+        var vals = [];
+// console.log("Hi");
+        switch(key) {
+            case 'grasp':
+                vals = data.grasp.split(",");
+                // console.log("grasp");
+                break;
+            case 'hold':
+                vals = data.hold.split(",");
+                break;
+            case 'release_load':
+                vals = data.release_load.split(",");
+                break;
+            case 'base':
+                vals = ['Please choose from above'];
+        }
+        
+        var $secondChoice = $("#second-choice");
+        $(".robo_param").hide();
+        // $secondChoice.empty();
+        $.each(vals, function(index, value) {
+            $("#"+value).show();
+            // $secondChoice.append("<option>" + value + "</option>");
+        });
 
+    });
+});
+</script>    
 
 <script>
 function taskInventory() {    //<!-- should  probably do this with database? just iterate over tasks? -->
@@ -246,6 +317,7 @@ function taskInventory() {    //<!-- should  probably do this with database? jus
     }
 
 }
+
 </script>
 
 

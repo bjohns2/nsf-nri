@@ -44,12 +44,14 @@ router.create = function ( req, res ){
   console.log(req.body.tools)
   new Task({
     // agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
-    descript   : req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
-    duration   : req.body.duration, // some time; autopopulate for robot?
-    skills     : req.body.skills, 
-    tools      : req.body.tools,
-    parents    : req.body.parents,
-    updated_at : Date.now()
+    descript    : req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
+    duration    : req.body.duration, // some time; autopopulate for robot?
+    skills      : req.body.skills, 
+    tools       : req.body.tools,
+    parents     : req.body.parents,
+    updated_at  : Date.now(),
+    arm         : req.body.arm,
+    grasp_effort: req.body.grasp_effort
     })
     .save( function( err, task, count ){
     res.redirect( '/' );
@@ -77,13 +79,26 @@ router.imports = function (req, res){
   var csv = require('./csv');
   var csvHeaders = {
       Task: {
-        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
+        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
       }
     }
   //adjust this path to the correct location
   // var TaskModel = mongoose.model( 'Task', Task );
-  console.log("startin?");
   csv.importFile('/Users/bjohns/Desktop/nsf_gui/nsf-gui/task_export.csv', csvHeaders.Task.headers, 'Task');
+  res.redirect( '/' );
+};
+
+router.sendtasks = function (req, res){
+  var net = require('net');
+  client = new net.Socket(); // set read/writeable?
+  // client.connect(9999); // more options?
+  client.connect(9999, '127.0.0.1', function() {
+  console.log('Connected');
+  result = client.write('Hello, server! Love, Client.');
+  alert("Sending the tasks worked: " + result);
+  });
+  // result = client.write("Header and grasp");
+  
   res.redirect( '/' );
 };
 

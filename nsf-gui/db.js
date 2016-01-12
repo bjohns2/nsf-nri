@@ -16,16 +16,18 @@ var fs = require("fs");
 
 var Task = new Schema({
     // agent      : String, // Should be either 'robot' or 'human'; this will need a binary selector
-    descript   : String, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
-    duration   : String, // some time; autopopulate for robot?
-    skills     : Array,
-    tools      : Array,
-    parents    : Array,
-    updated_at : Date
+    descript    : String, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
+    duration    : String, // some time; autopopulate for robot?
+    skills      : Array,
+    tools       : Array,
+    parents     : Array,
+    updated_at  : Date,
+    arm         : String,
+    grasp_effort: String,
 });
 
 Task.plugin(mongooseToCsv, {
-  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents',
+  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort',
   constraints: {
     'ID': '_id',
     // 'Agent': 'agent',
@@ -34,7 +36,9 @@ Task.plugin(mongooseToCsv, {
     'Skills': 'skills',
     'Tools': 'tools',
     'Parents': 'parents',
-    'Updated_At': 'updated_at'
+    'Updated_At': 'updated_at',
+    'Arm': 'arm',
+    'Grasp_Effort': 'grasp_effort'
   }
   // virtuals: {
   //   'Skills': function(doc) {
