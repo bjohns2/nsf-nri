@@ -103,3 +103,7 @@ a {
     background: transparent;
     border:none;
 }
+
+.robo_param {
+    display:none;
+}
