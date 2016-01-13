@@ -143,7 +143,7 @@
                      <div id="<%= task.id %>" class="task " style="float:left;position:static"> 
                         <div>
                           <a href="/destroy/<%= task.id %>" title="Delete"><image src="images/delete.png" height="20px"></a>
-                          <a href="#menu-toggle" id="menu-toggle" title="Edit"><image src="images/edit.png" height="20px"></a>
+                          <a class="menu-toggle" title="Edit"><image src="images/edit.png" height="20px"></a>
                         </div>
                         <div style="border-style: solid;background:white">
                             <p>ID: <%= task.id %> <br>Description: <%= task.descript %><br>Duration: <%= task.duration %> <br>Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %></p>
@@ -190,10 +190,18 @@
         <form action="/create" method="post" accept-charset="utf-8" style="clear:both">
             Task Description: <br>
                 <select id="task-choice" name="descript">
-                    <option selected value="base">Please Select</option>
+                    <!-- <option selected value="base">Please Select</option>
                     <option value="grasp">Grasp</option>
                     <option value="hold">Hold</option>
-                    <option value="release_load">Release Load</option>
+                    <option value="release_load">Release Load</option> -->
+                    <script>
+                    $.getJSON("json_data/message_lookup.json", function(data) { 
+
+                        for (key in data){
+                            document.getElementById("task-choice").innerHTML = document.getElementById("task-choice").innerHTML + "<option value='"+key+"'>"+key+"</option>";
+                        }
+                    });
+                    </script>
                 </select>
             <br>
             <div id="arm" class="robo_param">
@@ -206,7 +214,7 @@
             </div>
             <div id="grasp_effort" class="robo_param">
                 Grasp Effort: <br>
-                    <input type="text" name="grasp_effort" /> <br>
+                    <input type="number" name="grasp_effort" /> <br>
             </div>
            <!--  Skills: <br>
                 <input type="checkbox" name="skills[]" value="move"> Move
@@ -252,23 +260,27 @@
         $("#task-choice").change(function() {
         console.log("hey");
         var $dropdown = $(this);
-        $.getJSON("json_data/dropdown_choices.json", function(data) { 
+        // $.getJSON("json_data/dropdown_choices.json", function(data) { 
+        $.getJSON("json_data/message_lookup.json", function(data) { 
 
         var key = $dropdown.val();
         var vals = [];
-        switch(key) {
-            case 'grasp':
-                vals = data.grasp.split(",");
-                // console.log("grasp");
-                break;
-            case 'hold':
-                vals = data.hold.split(",");
-                break;
-            case 'release_load':
-                vals = data.release_load.split(",");
-                break;
-            case 'base':
-                vals = ['Please choose from above'];
+        // switch(key) {
+        //     case 'grasp':
+        //         vals = data.grasp.split(",");
+        //         // console.log("grasp");
+        //         break;
+        //     case 'hold':
+        //         vals = data.hold.split(",");
+        //         break;
+        //     case 'release_load':
+        //         vals = data.release_load.split(",");
+        //         break;
+        //     case 'base':
+        //         vals = ['Please choose from above'];
+        // }
+        for (param in data[key]["parameters"]){
+            vals.push(param);
         }
         $(".robo_param").hide();
         $.each(vals, function(index, value) {
@@ -302,12 +314,11 @@ function taskInventory() {    //<!-- should  probably do this with database? jus
 
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
+    $(".menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
     </script>
-
 
 </body>
 

@@ -89,19 +89,107 @@ router.imports = function (req, res){
 };
 
 router.sendtasks = function (req, res){
-  var net = require('net');
-  client = new net.Socket(); // set read/writeable?
-  // client.connect(9999); // more options?
-  client.connect(9999, '127.0.0.1', function() {
-  console.log('Connected');
-  result = client.write('Hello, server! Love, Client.');
-  alert("Sending the tasks worked: " + result);
+  tasks = Task.find( function ( err, tasks, count ){  // Get all the tasks
+    console.log("HI AGAIN");
+      var myMessage = getMessageFromTasks(tasks);
+
+    var PORT = 9999;
+    var HOST = '128.31.35.204';
+
+    var dgram = require('dgram');
+    var header = toBytesInt32(1000);
+
+    // var myMessage = makeHeader(1, 0, 8); 
+    // var myOtherMessage = makeMessage([55,2,1,4,0,4,8,4]);
+
+    // console.log(myMessage);
+    // console.log(myOtherMessage);
+
+    var message = new Buffer(myMessage);
+    console.log('SENDING UDP message sent to ' + HOST +':'+ PORT); 
+    var client = dgram.createSocket('udp4');
+    client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+        if (err) throw err;
+        console.log('UDP message sent to ' + HOST +':'+ PORT); 
+        client.close();
+    });
+
+    res.redirect( '/' );
   });
-  // result = client.write("Header and grasp");
-  
-  res.redirect( '/' );
 };
 
+function toBytesInt32 (num) {
+    bytes=new Array(3);
+    x=num;
+    bytes[0]=x & (255);
+    x=x>>8;
+    bytes[1]=x & (255);
+    x=x>>8;
+    bytes[2]=x & (255);
+    x=x>>8;
+    bytes[3]=x & (255);
+    return bytes;
+}
+
+function makeHeader(seqNum, timestamp, messageType) {
+  var check = new Array(1);
+  check[0]=55;
+  check[1]=0;
+  var seqNumBytes = toBytesInt32(seqNum);
+  var timestampBytes = toBytesInt32(timestamp);
+  var messageTypeBytes = toBytesInt32(messageType);
+  var header = check.concat(seqNumBytes).concat(timestampBytes).concat(messageTypeBytes);
+  return header;
+}
+
+function makeMessage(parameterArray) {            // parameterArray is of the format [x1,y1,x2,y2,x3,y3] 
+  allBytes = [];                                  // where x is the int message and y is number of bytes to output for x
+  for (i = 0; i < parameterArray.length; i=i+2) { // Loop over xs to turn them into bytes
+    x = parameterArray[i];
+    y = parameterArray[i+1];
+    xBytes = new Array(y);
+    for (j = 0; j < y; j++) {                     // Loop over ys to make each byte of the x value
+      xBytes[j] = x & (255);
+      x = x>>8;
+    }
+    allBytes = allBytes.concat(xBytes); // possibly better to initialize a properly sized array and add in; not sure if it matters
+  }
+  return allBytes;
+}
+
+function getMessageFromTasks(tasks) {
+  timestamp = 0;
+  messageLookup = require("../public/json_data/message_lookup.json");
+  bigMessage = [];
+  console.log("HI");
+      for (i = 0; i < tasks.length; i++) {      // For each task, make a message
+      task = tasks[i];
+      taskHeader = makeHeader(i, timestamp, messageLookup[task.descript]["messageTypeCode"]);
+      taskMessage = [];
+      for (param in messageLookup[task.descript]["parameters"]){  // For each parameter of a given task, add its param code and number of bytes
+        taskMessage.push(paramValToInt(task[param]));                 // This works given that each param is  [ (int) param code, (int) number of bytes ]
+        taskMessage.push(messageLookup[task.descript]["parameters"][param]);
+      }
+      // console.log(taskHeader);
+      bigMessage = bigMessage.concat(taskHeader).concat(taskMessage);
+      // console.log(bigMessage);
+    }
+  // console.log(tasks);
+  // console.log("what");
+  // TODO: and an end_msg
+  console.log(bigMessage);
+  return bigMessage;
+}
+
+function paramValToInt(paramVal) {
+  if (paramVal == "left") {
+    return 0;
+  }
+  if (paramVal == "right") {
+    return 1;
+  }
+  return paramVal;
+}
 
 // // query db for all todo items
 // router.index = function ( req, res ){
