@@ -40,11 +40,13 @@ app.use(function(req,res,next){
 
 app.use('/users', users);
 app.get( '/destroy/:id', routes.destroy );
+app.post( '/update', routes.update );
 
 app.post( '/create', routes.create );
 app.get( '/exports', routes.exports );
 app.get( '/imports', routes.imports );
 app.get( '/sendtasks', routes.sendtasks );
+app.post( '/saveworkspace', routes.saveworkspace );
 app.use('/', routes);
 // app.use( '/', routes.index );
 

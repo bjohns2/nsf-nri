@@ -99,19 +99,89 @@
     <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
+                <a title="Exit_Edit" onclick='$("#wrapper").toggleClass("toggled");'><image src="images/delete.png" height="20px"></a>
                 <li class="sidebar-brand">
                     <a >
                         Edit Task
                     </a>
+
                 </li>
-            <form action="/edit" method="post" accept-charset="utf-8" style="clear:both">
-            Task Description: <br>
-                <input type="text" name="armt" value="left"/>
-            <br>
-            <div id="artm" class="edit_param">
+
+            <form action="/update" method="post" accept-charset="utf-8" style="clear:both">
+            <!-- <div id="artm" class="edit_param"> -->
+                ID: <br>
+                    <input type="text" name="id" id="editTask_id"/> <br>
+                <div id="editTask_descript">
+                Description: <br>
+                    <input type="text" name="descript" id="editTask_form_descript" value=""/> <br>
+                </div>
+<!--                 Arm: <br>
+                    <input type="text" name="arm" value="left" id="editTask_arm"/> <br>
+                <div id="editTask_grasp_effort">
+                Grasp Effort: <br>
+                    <input type="text" name="grasp_effort" value="left" /> <br>
+                </div> -->
+
+            <div id="editTask_arm" class="editTask_robo_param">
                 Arm: <br>
-                    <input type="text" name="arm" value="left"/> <br>
+                    <input type="text" name="arm" id="editTask_form_arm" value="left"/> <br>
             </div>
+            <div id="editTask_duration" class="editTask_robo_param">
+                Duration: <br>
+                    <input type="text" name="duration" id="editTask_form_duration" /> <br>
+            </div>
+            <div id="editTask_grasp_effort" class="editTask_robo_param">
+                Grasp Effort: <br>
+                    <input type="number" name="grasp_effort" id="editTask_form_grasp_effort" /> <br>
+            </div>
+            <div id="editTask_object" class="editTask_robo_param">
+                Object: <br>
+                    <input type="number" name="object" id="editTask_form_object" /> <br>
+            </div>
+            <div id="editTask_orientation" class="editTask_robo_param">
+                Orientation: <br>
+                    <input type="number" name="orientation" id="editTask_form_orientation"/> <br>
+            </div>
+            <div id="editTask_angle" class="editTask_robo_param">
+                Angle: <br>
+                    <input type="number" name="angle" id="editTask_form_angle" /> <br>
+            </div>
+            <div id="editTask_position" class="editTask_robo_param">
+                Position: <br>
+                    <input type="number" name="position" id="editTask_form_position" /> <br>
+            </div>
+            <div id="editTask_size" class="editTask_robo_param">
+                Size: <br>
+                    <input type="number" name="size" id="editTask_form_size"/> <br>
+            </div>
+            <div id="editTask_relativeX" class="editTask_robo_param">
+                Relative X: <br>
+                    <input type="number" name="relativeX" id="editTask_form_relativeX" /> <br>
+            </div>
+            <div id="editTask_relativeY" class="editTask_robo_param">
+                Relative Y: <br>
+                    <input type="number" name="relativeY" id="editTask_form_relativeY"/> <br>
+            </div>
+            <div id="editTask_relativeZ" class="editTask_robo_param">
+                Relative Z: <br>
+                    <input type="number" name="relativeZ" id="editTask_form_relativeZ" /> <br>
+            </div>
+            Skills: <br>
+                <input type="checkbox" name="skills[]" value="move" id="editTask_form_skills_move"> Move
+                <br>
+                <input type="checkbox" name="skills[]" value="rotate" id="editTask_form_skills_rotate"> Rotate
+                <br>
+            Tools: <br>
+                <input type="checkbox" name="tools[]" value="rotator"> Rotator
+                <br>
+                <input type="checkbox" name="tools[]" value="fastener"> Fastener
+                <br>
+            Parents: <br>
+                <% tasks.forEach( function( task ){ %>
+                    <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.id %>
+                    <br>
+                <% }); %>
+            <!-- </div> -->
             <input type="submit" value="Submit">
         </form>
             </ul>
@@ -139,14 +209,58 @@
             <div class="task-steps" style="overflow-x:scroll;overflow-y:visible">
                 <div style="width:5000px;overflow-y:visible" class="sortable"> <!-- TODO: this width / overflow thing is a little hacky -->
                 <!-- <p> Tasks </p> -->
+
                 <% tasks.forEach( function( task ){ %>
-                     <div id="<%= task.id %>" class="task " style="float:left;position:static"> 
+                     <div id="<%= task.id %>" class="task " style="float:left;position:static;left:<%=task.order_number%>"> 
                         <div>
                           <a href="/destroy/<%= task.id %>" title="Delete"><image src="images/delete.png" height="20px"></a>
-                          <a class="menu-toggle" title="Edit"><image src="images/edit.png" height="20px"></a>
+                          <a onclick="editTask(this)" title="Edit" id="<%= task.id %>"><image src="images/edit.png" height="20px"></a>
                         </div>
                         <div style="border-style: solid;background:white">
-                            <p>ID: <%= task.id %> <br>Description: <%= task.descript %><br>Duration: <%= task.duration %> <br>Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %></p>
+                            <p>ID: <%= task.id %> <br>Description: <%= task.descript %><br>
+                            <%if (task.duration != null && task.duration != "") { %>
+                                Duration: <%= task.duration %><br>
+                            <% } %>
+                            <%if (task.skills.length != 0 ) { %>
+                                Skills: <%= task.skills %><br>
+                            <% } %> 
+                            <%if (task.tools.length != 0) { %>
+                                Tools: <%= task.tools %><br>
+                            <% } %> 
+                            <%if (task.parents.length != 0) { %>
+                                Parents: <%= task.parents %><br>
+                            <% } %> 
+                            <%if (task.arm != null && task.arm != "") { %>
+                                Arm: <%= task.arm %><br>
+                            <% } %> 
+                            <%if (task.grasp_effort != null && task.grasp_effort != "") { %>
+                                Grasp Effort: <%= task.grasp_effort %><br>
+                            <% } %> 
+                            <%if (task.object != null && task.object != "") { %>
+                                Object: <%= task.object %><br>
+                            <% } %> 
+                            <%if (task.orientation != null && task.orientation != "") { %>
+                                Orientation: <%= task.orientation %><br>
+                            <% } %> 
+                            <%if (task.angle != null && task.angle != "") { %>
+                                Angle: <%= task.angle %><br>
+                            <% } %> 
+                            <%if (task.position != null && task.position != "") { %>
+                                Position: <%= task.position %><br>
+                            <% } %> 
+                            <%if (task.size != null && task.size != "") { %>
+                                Size: <%= task.size %> <br>
+                            <% } %> <%if (task.relativeX != null && task.relativeX != "") { %>
+                                RelativeX: <%= task.relativeX %><br>
+                            <% } %> <%if (task.relativeY != null && task.relativeY != "") { %>
+                                RelativeY: <%= task.relativeY %><br>
+                            <% } %> <%if (task.relativeZ != null && task.relativeZ != "") { %>
+                                RelativeZ: <%= task.relativeZ %><br>
+                            <% } %> <%if (task.order_number != null && task.order_number != "") { %>
+                                Order Number: <%= task.order_number %><br>
+                            <% } %> 
+                        </p>
+                            <!-- Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %><br>Object: <%= task.object %><br>Orientation: <%= task.orientation %><br>Angle: <%= task.angle %><br>Position: <%= task.positon %><br>Size: <%= task.size %><br>RelativeX <%= task.relativeX %><br>RelativeY: <%= task.relativeY %><br>RelativeZ: <%= task.relativeZ %></p> -->
                         </div>
                         <div style="position:relative">
                            <table style="width:100%;">
@@ -216,7 +330,39 @@
                 Grasp Effort: <br>
                     <input type="number" name="grasp_effort" /> <br>
             </div>
-           <!--  Skills: <br>
+            <div id="object" class="robo_param">
+                Object: <br>
+                    <input type="number" name="object" /> <br>
+            </div>
+            <div id="orientation" class="robo_param">
+                Orientation: <br>
+                    <input type="number" name="orientation" /> <br>
+            </div>
+            <div id="angle" class="robo_param">
+                Angle: <br>
+                    <input type="number" name="angle" /> <br>
+            </div>
+            <div id="position" class="robo_param">
+                Position: <br>
+                    <input type="number" name="position" /> <br>
+            </div>
+            <div id="size" class="robo_param">
+                Size: <br>
+                    <input type="number" name="size" /> <br>
+            </div>
+            <div id="relativeX" class="robo_param">
+                Relative X: <br>
+                    <input type="number" name="relativeX" /> <br>
+            </div>
+            <div id="relativeY" class="robo_param">
+                Relative Y: <br>
+                    <input type="number" name="relativeY" /> <br>
+            </div>
+            <div id="relativeZ" class="robo_param">
+                Relative Z: <br>
+                    <input type="number" name="relativeZ" /> <br>
+            </div>
+            Skills: <br>
                 <input type="checkbox" name="skills[]" value="move"> Move
                 <br>
                 <input type="checkbox" name="skills[]" value="rotate"> Rotate
@@ -225,12 +371,13 @@
                 <input type="checkbox" name="tools[]" value="rotator"> Rotator
                 <br>
                 <input type="checkbox" name="tools[]" value="fastener"> Fastener
-                <br> -->
+                <br>
             Parents: <br>
                 <% tasks.forEach( function( task ){ %>
                     <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.id %>
                     <br>
                 <% }); %>
+
             <input type="submit" value="Submit">
         </form> <br> <br>
 
@@ -242,6 +389,9 @@
         </div>
         <div>
             <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a>
+        </div>
+        <div>
+            <a onclick="saveWorkspace()" title="SaveWorkspace">Save Workspace</a>
         </div>
 
         <br style="clear:both">
@@ -256,6 +406,20 @@
 </div>
     <!-- /.container -->
 
+<script>
+function saveWorkspace() {
+    divslist = taskInventory();
+    divsdict = {};
+    for (var i=0; i<divslist.length; i++) {
+        divsdict[divslist[i][0]] = i
+    }
+    console.log(divsdict);
+    $.post("/saveworkspace", divsdict, function(){ //data, status){
+        // console.log("Data: " + data + "\nStatus: " + status);
+    });
+}
+</script>
+
         <script>
         $("#task-choice").change(function() {
         console.log("hey");
@@ -265,20 +429,6 @@
 
         var key = $dropdown.val();
         var vals = [];
-        // switch(key) {
-        //     case 'grasp':
-        //         vals = data.grasp.split(",");
-        //         // console.log("grasp");
-        //         break;
-        //     case 'hold':
-        //         vals = data.hold.split(",");
-        //         break;
-        //     case 'release_load':
-        //         vals = data.release_load.split(",");
-        //         break;
-        //     case 'base':
-        //         vals = ['Please choose from above'];
-        // }
         for (param in data[key]["parameters"]){
             vals.push(param);
         }
@@ -307,18 +457,59 @@ function taskInventory() {    //<!-- should  probably do this with database? jus
     for(var i = 0; i < divsList.length; i++){
         div2.innerHTML += "<br>" +divsList[i];
     }
-
+    return divsList;
 }
+</script>
 
+<script>
+function editTask(element) {    //<!-- should  probably do this with database? just iterate over tasks? -->
+
+    // var tasks2 = !{JSON.stringify(tasks)};
+    $(".editTask_robo_param").hide();
+    var tasks2 = <%- JSON.stringify(tasks) %>;
+    // alert(tasks2);
+    // menu toggle with id
+    $("#wrapper").addClass("toggled");
+    // $("#wrapper").className = "toggled";
+    $("#editTask_id").val(element.id);
+
+    var thisTask; 
+    tasks2.forEach( function( task ){
+        if (task._id == element.id) {
+            thisTask = task;
+        }
+    });
+
+    $.getJSON("json_data/message_lookup.json", function(data) { 
+        console.log(thisTask["descript"]);
+        $("#editTask_form_descript").val(thisTask["descript"]);
+        // $("#editTask_descript").val("whee");
+        for (key in data[thisTask["descript"]]["parameters"]){
+            console.log("editTask_"+key);
+            // console.log(thisTask);
+            console.log(thisTask[key]);
+            $("#editTask_form_"+key).val(thisTask[key]);
+            $("#editTask_"+key).show();
+        }
+    });
+    // $("#editTask_arm").val(thisTask.arm); //.attr('value', element.id); //; .value = element.id;
+}
 </script>
 
     <!-- Menu Toggle Script -->
     <script>
-    $(".menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+    // $(".menu-toggle").click(function(e) {
+    //     e.preventDefault();
+    //     $("#wrapper").toggleClass("toggled");
+    // });
     </script>
+
+<script>
+// var current order = [];
+// function 
+
+
+</script>
 
 </body>
 

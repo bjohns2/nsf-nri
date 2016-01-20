@@ -24,10 +24,19 @@ var Task = new Schema({
     updated_at  : Date,
     arm         : String,
     grasp_effort: String,
+    object      : String,
+    orientation : String,
+    angle       : String,
+    position    : String,
+    size        : String,
+    relativeX   : String,
+    relativeY   : String,
+    relativeZ   : String,
+    order_number : String,
 });
 
 Task.plugin(mongooseToCsv, {
-  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort',
+  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort Object Orientation Angle Position Size RelativeX RelativeY RelativeZ OrderNumber',
   constraints: {
     'ID': '_id',
     // 'Agent': 'agent',
@@ -38,7 +47,16 @@ Task.plugin(mongooseToCsv, {
     'Parents': 'parents',
     'Updated_At': 'updated_at',
     'Arm': 'arm',
-    'Grasp_Effort': 'grasp_effort'
+    'Grasp_Effort': 'grasp_effort',
+    'Object': 'object',
+    'Orientation': 'orientation',
+    'Angle': 'angle',
+    'Position': 'position',
+    'Size': 'size',
+    'RelativeX': 'relativeX',
+    'RelativeY': 'relativeY',
+    'RelativeZ': 'relativeZ',
+    'OrderNumber': 'order_number'
   }
   // virtuals: {
   //   'Skills': function(doc) {

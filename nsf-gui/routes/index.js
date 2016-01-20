@@ -5,9 +5,12 @@ var mongoose = require( 'mongoose' );
 var Task     = mongoose.model( 'Task' );
 var fs = require('fs');
 
-/* GET home page. */
+/* GET index page. */
 router.get('/', function(req, res, next) {
   Task.find( function ( err, tasks, count ){
+    tasks.sort(function(a, b){
+      return parseInt(a.order_number) - parseInt(b.order_number);
+    });
     res.render( 'index', {
       title : 'Express Todo Example',
       tasks : tasks
@@ -15,7 +18,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* GET home page. */
+/* GET refine page. */
 router.get('/refine', function(req, res, next) {
   Task.find( function ( err, tasks, count ){
     res.render( 'refine', {
@@ -36,6 +39,31 @@ router.get('/userlist', function(req, res) {
     });
 });
 
+// redirect to index when finish
+router.update = function ( req, res ){
+  Task.findById( req.body.id, function ( err, task ){
+    task.descript    = req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
+    task.duration    = req.body.duration, // some time; autopopulate for robot?
+    task.skills      = req.body.skills, 
+    task.tools       = req.body.tools,
+    task.parents     = req.body.parents,
+    task.updated_at  = Date.now(),
+    task.arm         = req.body.arm,
+    task.grasp_effort= req.body.grasp_effort,
+    task.object      = req.body.object,
+    task.orientation = req.body.orientation,
+    task.angle       = req.body.angle,
+    task.position    = req.body.position,
+    task.size        = req.body.size,
+    task.relativeX   = req.body.relativeX,
+    task.relativeY   = req.body.relativeY,
+    task.relativeZ   = req.body.relativeZ
+    task.save( function ( err, task, count ){
+      res.redirect( '/' );
+    });
+  });
+};
+
 
 //Redirect the page back to index after the record is created.
 router.create = function ( req, res ){
@@ -51,7 +79,15 @@ router.create = function ( req, res ){
     parents     : req.body.parents,
     updated_at  : Date.now(),
     arm         : req.body.arm,
-    grasp_effort: req.body.grasp_effort
+    grasp_effort: req.body.grasp_effort,
+    object      : req.body.object,
+    orientation : req.body.orientation,
+    angle       : req.body.angle,
+    position    : req.body.position,
+    size        : req.body.size,
+    relativeX   : req.body.relativeX,
+    relativeY   : req.body.relativeY,
+    relativeZ   : req.body.relativeZ
     })
     .save( function( err, task, count ){
     res.redirect( '/' );
@@ -79,7 +115,7 @@ router.imports = function (req, res){
   var csv = require('./csv');
   var csvHeaders = {
       Task: {
-        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
+        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','position','size','relativeX','relativeY','relativeZ','order_number']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
       }
     }
   //adjust this path to the correct location
@@ -90,30 +126,60 @@ router.imports = function (req, res){
 
 router.sendtasks = function (req, res){
   tasks = Task.find( function ( err, tasks, count ){  // Get all the tasks
-    console.log("HI AGAIN");
-      var myMessage = getMessageFromTasks(tasks);
-
-    var PORT = 9999;
-    var HOST = '128.31.35.204';
-
-    var dgram = require('dgram');
-    var header = toBytesInt32(1000);
-
-    // var myMessage = makeHeader(1, 0, 8); 
-    // var myOtherMessage = makeMessage([55,2,1,4,0,4,8,4]);
-
-    // console.log(myMessage);
-    // console.log(myOtherMessage);
-
-    var message = new Buffer(myMessage);
-    console.log('SENDING UDP message sent to ' + HOST +':'+ PORT); 
-    var client = dgram.createSocket('udp4');
-    client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-        if (err) throw err;
-        console.log('UDP message sent to ' + HOST +':'+ PORT); 
-        client.close();
+    tasks.sort(function(a, b){
+      return parseInt(a.order_number) - parseInt(b.order_number);
     });
 
+    var PORT = 9999;
+    var HOST = '128.30.9.193';
+
+    // var dgram = require('dgram'); // TODO creat socket on startup and keep it open
+    // var header = toBytesInt32(1000);
+
+    // var client = dgram.createSocket('udp4');
+
+    // var myBigMessage = getMessageFromTasks(tasks);
+    // console.log(myBigMessage);
+    // for (var i=0; i<myBigMessage.length;i++){
+    //   // console.log("myMessage: " + myMessage);
+    //   var message = new Buffer(myBigMessage[i]);
+    //   console.log('SENDING UDP message sent to ' + HOST +':'+ PORT + ' with length: ' + message.length); 
+    //   console.log('Specifically, sending ' + myBigMessage[i]);
+      
+    //   client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
+    //       if (err) throw err;
+    //       console.log('UDP message sent to ' + HOST +':'+ PORT); 
+    //       // client.close();
+    //   });
+    // }
+
+    var myBigMessage = getMessageFromTasks(tasks);
+    // console.log(myBigMessage);
+    // var message = new Buffer(myBigMessage);
+
+    var net = require('net');
+
+    var client = new net.Socket();
+    client.connect(PORT, HOST, function() {
+      if (err) throw err;
+      console.log('Connected');
+      for (var i=0; i<myBigMessage.length;i++){
+        message = Buffer(myBigMessage[i]);
+        console.log('Sending message to ' + HOST +':'+ PORT + ': ' + myBigMessage[i]); 
+        client.write(message);
+      }
+      
+    });
+
+    client.on('data', function(data) {
+      data = data.readDoubleLE(0);
+      console.log('Received: ' + data);
+      // client.destroy(); // kill client after server's response
+    });
+
+    // client.on('close', function() {
+    //   console.log('Connection closed');
+    // });
     res.redirect( '/' );
   });
 };
@@ -144,11 +210,11 @@ function makeHeader(seqNum, timestamp, messageType) {
 
 function makeMessage(parameterArray) {            // parameterArray is of the format [x1,y1,x2,y2,x3,y3] 
   allBytes = [];                                  // where x is the int message and y is number of bytes to output for x
-  for (i = 0; i < parameterArray.length; i=i+2) { // Loop over xs to turn them into bytes
+  for (var i = 0; i < parameterArray.length; i=i+2) { // Loop over xs to turn them into bytes
     x = parameterArray[i];
     y = parameterArray[i+1];
     xBytes = new Array(y);
-    for (j = 0; j < y; j++) {                     // Loop over ys to make each byte of the x value
+    for (var j = 0; j < y; j++) {                     // Loop over ys to make each byte of the x value
       xBytes[j] = x & (255);
       x = x>>8;
     }
@@ -161,21 +227,22 @@ function getMessageFromTasks(tasks) {
   timestamp = 0;
   messageLookup = require("../public/json_data/message_lookup.json");
   bigMessage = [];
-  console.log("HI");
-      for (i = 0; i < tasks.length; i++) {      // For each task, make a message
-      task = tasks[i];
-      taskHeader = makeHeader(i, timestamp, messageLookup[task.descript]["messageTypeCode"]);
-      taskMessage = [];
-      for (param in messageLookup[task.descript]["parameters"]){  // For each parameter of a given task, add its param code and number of bytes
-        taskMessage.push(paramValToInt(task[param]));                 // This works given that each param is  [ (int) param code, (int) number of bytes ]
-        taskMessage.push(messageLookup[task.descript]["parameters"][param]);
-      }
-      // console.log(taskHeader);
-      bigMessage = bigMessage.concat(taskHeader).concat(taskMessage);
-      // console.log(bigMessage);
+  // console.log(tasks.length);
+  for (var i = 0; i < tasks.length; i++) {      // For each task, make a message
+
+    task = tasks[i];
+    taskHeader = makeHeader(i, timestamp, messageLookup[task.descript]["messageTypeCode"]);
+    taskMessage = [];
+    taskMessage.push(i,4);
+    // console.log(i);
+    for (param in messageLookup[task.descript]["parameters"]){  // For each parameter of a given task, add its param code and number of bytes
+      taskMessage.push(paramValToInt(task[param]));                 // This works given that each param is  [ (int) param code, (int) number of bytes ]
+      taskMessage.push(messageLookup[task.descript]["parameters"][param]);
     }
-  // console.log(tasks);
-  // console.log("what");
+    taskMessage = makeMessage(taskMessage); 
+    bigMessage.push(taskHeader);
+    bigMessage.push(taskMessage);
+  }
   // TODO: and an end_msg
   console.log(bigMessage);
   return bigMessage;
@@ -185,23 +252,38 @@ function paramValToInt(paramVal) {
   if (paramVal == "left") {
     return 0;
   }
-  if (paramVal == "right") {
+  else if (paramVal == "right") {
     return 1;
+  }
+  else {
+    paramVal = parseInt(paramVal);
   }
   return paramVal;
 }
 
-// // query db for all todo items
-// router.index = function ( req, res ){
-//   Todo.find( function ( err, todos, count ){
-//     // console.log(todos)
-//     // console.log(count)
-//     console.log("Hi!")
-//     res.render( 'index', {
-//       title : 'Express Todo Example',
-//       todos : todos
-//     });
-//   });
-// };
+
+router.saveworkspace = function (req, res){
+  function asyncLoop( k, callback ) {         // loop through each task and update its order number
+    loopsize = Object.keys(req.body).length;
+    if (k<loopsize) {
+      task = Object.keys(req.body)[k];
+      Task.findById(task, function (err, doc){
+        doc.order_number = req.body[task];
+        doc.save();
+        asyncLoop( k+1, callback );
+      });
+    }
+    else {
+        callback();
+    }
+  }
+  asyncLoop( 0, function() {              // when done looping, sort the tasks by their new order number and refresh the page
+    Task.find( function ( err, tasks, count ){
+      tasks.sort(function(a, b){
+        return parseInt(a.order_number) - parseInt(b.order_number);
+      });
+    });
+  }); 
+};
 
 module.exports = router;

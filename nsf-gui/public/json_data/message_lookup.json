@@ -3,6 +3,7 @@
     "messageTypeCode": 0,
     "parameters": {
         "object": 4,
+        "orientation":4,
         "angle": 4,
         "arm": 1
     }
@@ -38,9 +39,9 @@
   "movebase": {
     "messageTypeCode": 5,
     "parameters": {
-        "relativeX": 4,
-        "realativeY": 4,
-        "realtiveZ": 4
+        "relativeX": 8,
+        "relativeY": 8,
+        "relativeZ": 8
     }
   },
   "retract": {
