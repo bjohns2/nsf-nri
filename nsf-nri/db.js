@@ -2,6 +2,7 @@ var mongoose = require( 'mongoose' );
 var Schema   = mongoose.Schema;
 var mongooseToCsv = require( 'mongoose-to-csv');
 var fs = require("fs");
+var shortid = require('shortid');
 
 mongoose.set('debug', true);
 
@@ -16,11 +17,13 @@ mongoose.set('debug', true);
 // mongoose.model( 'Todo', Todo );
 // mongoose.connect( 'mongodb://localhost/todo' ); //express-todo
 
-var mongoose = require('mongoose');    
+// var mongoose = require('mongoose');    
+
+// mongoose.connect('mongodb://localhost/test');
 
 var mongodbUri = 'mongodb://what:what@ds047345.mongolab.com:47345/heroku_fh1tlrkf';
 
-mongoose.connect(process.env.MONGOLAB_URI || "mongo://localhost:1234",
+mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/test",
     function(err) {
       console.log("CONNECTION MADE");
         if (err) {
@@ -32,25 +35,6 @@ mongoose.connect(process.env.MONGOLAB_URI || "mongo://localhost:1234",
 console.log(process.env.MONGOLAB_URI);
 
 var db = mongoose.connection;
-
-// mongoose.connection.db.collectionNames(function(error, names) {
-//   console.log("what is giong on");
-//     if (error) {
-//       console.log("I got an error");
-//       throw new Error(error);
-//     } else {
-//       console.log("I'm doing stuff");
-//       names.map(function(cname) {
-//         console.log(cname.name);
-//       });
-//     }
-//   });
-
-// db.on('error', console.error.bind(console, 'connection error:'));
-
-// db.once('open', function callback () {
-  console.log("I opened the db, I hope.");
-  // console.log(TaskModel);
 
 
 
@@ -72,19 +56,19 @@ var Task = new Schema({
     relativeX   : String,
     relativeY   : String,
     relativeZ   : String,
-    order_number : String
+    order_number: String,
+    short_id    : {
+      type: String,
+      unique: true,
+      'default': shortid.generate
+    }
 });
 
 var TaskModel = mongoose.model( 'Task', Task );
 
-var init = new TaskModel({
-    descript: 'release_load',
-    arm: 'left'
-  });
-init.save();
 
 Task.plugin(mongooseToCsv, {
-  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort Object Orientation Angle Position Size RelativeX RelativeY RelativeZ OrderNumber',
+  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort Object Orientation Angle Position Size RelativeX RelativeY RelativeZ OrderNumber ShortID',
   constraints: {
     'ID': '_id',
     // 'Agent': 'agent',
@@ -104,7 +88,8 @@ Task.plugin(mongooseToCsv, {
     'RelativeX': 'relativeX',
     'RelativeY': 'relativeY',
     'RelativeZ': 'relativeZ',
-    'OrderNumber': 'order_number'
+    'OrderNumber': 'order_number',
+    'ShortID': 'short_id'
   }
   // virtuals: {
   //   'Skills': function(doc) {

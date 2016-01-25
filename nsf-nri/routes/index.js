@@ -10,17 +10,27 @@ mongoose.set('debug', true);
 
 /* GET index page. */
 router.get('/', function(req, res, next) {
-  console.log("getting index page");
-  // console.log(Task);
+  parents={};
+  console.log("parents: " + parents);
+  // Sort the tasks by their order number
   Task.find( function ( err, tasks, count ){
-    console.log("I found the tasks!");
     tasks.sort(function(a, b){
       return parseInt(a.order_number) - parseInt(b.order_number);
     });
-    console.log("redering!");
+    // Get the short IDs of parents before loading the page
+    for (task in tasks) {
+      parents[tasks[task]._id] = [];
+      for (task2 in tasks) {
+        if ( tasks[task].parents.indexOf(tasks[task2]._id.toString()) > -1) {
+          parents[tasks[task]._id].push( tasks[task2].short_id);
+        }
+      }
+    }
+    console.log("parents: " + parents);
     res.render( 'index', {
       title : 'Express Todo Example',
       tasks : tasks,
+      parents: parents,
       times : []
     });
   });
@@ -123,7 +133,7 @@ router.imports = function (req, res){
   var csv = require('./csv');
   var csvHeaders = {
       Task: {
-        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','position','size','relativeX','relativeY','relativeZ','order_number']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
+        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','position','size','relativeX','relativeY','relativeZ','order_number','short_id']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
       }
     }
   //adjust this path to the correct location

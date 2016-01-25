@@ -40,7 +40,7 @@
 
     
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
     
     
     <!-- Script that should go in a separate file at some point -->
@@ -171,7 +171,7 @@
                 <br>
             Parents: <br>
                 <% tasks.forEach( function( task ){ %>
-                    <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.id %>
+                    <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.descript %> <%= task.short_id %>
                     <br>
                 <% }); %>
             <!-- </div> -->
@@ -210,19 +210,28 @@
                           <a onclick="editTask(this)" title="Edit" id="<%= task.id %>"><image src="images/edit.png" height="20px"></a>
                         </div>
                         <div style="border-style: solid;background:white">
-                            <p>ID: <%= task.id %> <br>Description: <%= task.descript %><br>
+                            <!-- <p>ID: <%= task.id %> -->
+                                <%if (task.short_id != null && task.short_id != "") { %>
+                                Short ID: <%= task.short_id %>
+                            <% } %>
+
+
+                            <br>Description: <%= task.descript %><br>
+                            <%if (parents[task._id].length != 0) { %>
+                                Parents: <%= parents[task._id] %><br>
+                            <% } %> 
                             <%if (task.duration != null && task.duration != "") { %>
                                 Duration: <%= task.duration %><br>
                             <% } %>
-                            <%if (task.skills.length != 0 ) { %>
+ <!--                            <%if (task.skills.length != 0 ) { %>
                                 Skills: <%= task.skills %><br>
                             <% } %> 
                             <%if (task.tools.length != 0) { %>
                                 Tools: <%= task.tools %><br>
-                            <% } %> 
-                            <%if (task.parents.length != 0) { %>
+                            <% } %>  -->
+<!--                             <%if (task.parents.length != 0) { %>
                                 Parents: <%= task.parents %><br>
-                            <% } %> 
+                            <% } %>  -->
                             <%if (task.arm != null && task.arm != "") { %>
                                 Arm: <%= task.arm %><br>
                             <% } %> 
@@ -251,7 +260,7 @@
                                 RelativeZ: <%= task.relativeZ %><br>
                             <% } %> <%if (task.order_number != null && task.order_number != "") { %>
                                 Order Number: <%= task.order_number %><br>
-                            <% } %> 
+                            <% } %>  
                         </p>
                             <!-- Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %><br>Object: <%= task.object %><br>Orientation: <%= task.orientation %><br>Angle: <%= task.angle %><br>Position: <%= task.positon %><br>Size: <%= task.size %><br>RelativeX <%= task.relativeX %><br>RelativeY: <%= task.relativeY %><br>RelativeZ: <%= task.relativeZ %></p> -->
                         </div>
@@ -363,7 +372,7 @@
                 <br>
             Parents: <br>
                 <% tasks.forEach( function( task ){ %>
-                    <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.id %>
+                    <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.descript %> <%= task.short_id %>
                     <br>
                 <% }); %>
 

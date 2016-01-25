@@ -12,12 +12,11 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 // DB stuff
-var mongo = require('mongodb');
-// var monk = require('monk');
-// var db = monk('mongodb://heroku_fh1tlrkf:mip0sa3evrmaf7rflh5klu0eoi@ds047345.mongolab.com:47345/heroku_fh1tlrkf');
+// var mongo = require('mongodb');
+
 var mongoose = require( 'mongoose' );
 var mongodbUri = 'mongodb://what:what@ds047345.mongolab.com:47345/heroku_fh1tlrkf';
-// mongoose.connect(mongodbUri);
+
 var db = mongoose.connection;
 
 var app = express();
