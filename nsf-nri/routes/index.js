@@ -138,7 +138,7 @@ router.imports = function (req, res){
     }
   //adjust this path to the correct location
   // var TaskModel = mongoose.model( 'Task', Task );
-  csv.importFile('/Users/bjohns/Desktop/nsf_gui/nsf-gui/task_export.csv', csvHeaders.Task.headers, 'Task');
+  csv.importFile('/Users/bjohns/Desktop/nsf_gui/nsf-nri/task_export.csv', csvHeaders.Task.headers, 'Task');
   res.redirect( '/' );
 };
 

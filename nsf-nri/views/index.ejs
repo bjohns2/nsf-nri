@@ -301,7 +301,7 @@
         <br><br><br>
         <form action="/create" method="post" accept-charset="utf-8" style="clear:both">
             Task Description: <br>
-                <select id="task-choice" name="descript">
+                <select id="task-choice" name="descript" >
                     <!-- <option selected value="base">Please Select</option>
                     <option value="grasp">Grasp</option>
                     <option value="hold">Hold</option>
@@ -318,7 +318,9 @@
             <br>
             <div id="arm" class="robo_param">
                 Arm: <br>
-                    <input type="text" name="arm" value="left"/> <br>
+                    <select name="arm">
+                    <option value='left'> Left</option>
+                    <option value='right'> Right</option></select>
             </div>
             <div id="duration" class="robo_param">
                 Duration: <br>
@@ -423,26 +425,39 @@ function saveWorkspace() {
 }
 </script>
 
-        <script>
-        $("#task-choice").change(function() {
-        console.log("hey");
-        var $dropdown = $(this);
+<script>
+        $("#task-choice").change(updateParamsOnDropdown );
+
+
+    function updateParamsOnDropdown() {
+        console.log($(this).context);
+        var key = "";
+        // if the dropdown hasn't been changed yet, show the params for transport_empty
+        if ($(this).context == undefined) {
+            console.log("whooo");
+            var key = "transport_empty";
+        }
+        else {
+            key = $(this).val();
+        }
+        // var $dropdown = $(this);
+        // console.log($dropdown.val());
         // $.getJSON("json_data/dropdown_choices.json", function(data) { 
         $.getJSON("json_data/message_lookup.json", function(data) { 
 
-        var key = $dropdown.val();
-        var vals = [];
-        for (param in data[key]["parameters"]){
-            vals.push(param);
-        }
-        $(".robo_param").hide();
-        $.each(vals, function(index, value) {
+            // var key = $dropdown.val();
+            var vals = [];
+            for (param in data[key]["parameters"]){
+                vals.push(param);
+            }
+            $(".robo_param").hide();
+            $.each(vals, function(index, value) {
 
-            $("#"+value).show();
+                $("#"+value).show();
+            });
+
         });
-
-    });
-});
+    }
 </script>    
 
 <script>
@@ -511,7 +526,7 @@ function editTask(element) {    //<!-- should  probably do this with database? j
 // var current order = [];
 // function 
 
-
+updateParamsOnDropdown();
 </script>
 
 </body>
