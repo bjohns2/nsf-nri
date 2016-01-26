@@ -108,6 +108,10 @@ a {
     display:none;
 }
 
+.form-control-feedback {
+    display:none;
+}
+
 .editTask_robo_param {
     display:none;
 }

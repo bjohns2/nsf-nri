@@ -15,7 +15,8 @@
     <title>Bare - Start Bootstrap Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="stylesheets/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="stylesheets/style.css" rel="stylesheet">
     <link href="stylesheets/simple-sidebar.css" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -299,13 +300,11 @@
     
 
         <br><br><br>
-        <form action="/create" method="post" accept-charset="utf-8" style="clear:both">
-            Task Description: <br>
-                <select id="task-choice" name="descript" >
-                    <!-- <option selected value="base">Please Select</option>
-                    <option value="grasp">Grasp</option>
-                    <option value="hold">Hold</option>
-                    <option value="release_load">Release Load</option> -->
+        <form action="/create" method="post" accept-charset="utf-8" style="clear:both" class="form-horizontal col-sm-6" id="myBigForm">
+            <div class="form-group"> 
+            <!-- Task Description: <br> -->
+            <label class="control-label" for="inputError">Task Description</label>
+                <select id="task-choice" name="descript" class="form-control" >
                     <script>
                     $.getJSON("json_data/message_lookup.json", function(data) { 
 
@@ -315,96 +314,114 @@
                     });
                     </script>
                 </select>
-            <br>
-            <div id="arm" class="robo_param">
-                Arm: <br>
-                    <select name="arm">
+            </div>
+            <div id="arm" class="robo_param form-group">
+                <!-- Arm: <br> -->
+                <label class="control-label" for="inputError">Arm</label>
+                    <select name="arm" class="form-control">
                     <option value='left'> Left</option>
                     <option value='right'> Right</option></select>
             </div>
-            <div id="duration" class="robo_param">
+<!--             <div id="duration" class="robo_param form-group">
                 Duration: <br>
                     <input type="text" name="duration" /> <br>
+            </div> -->
+            <div id="grasp_effort" class="robo_param form-group">
+                <label class="control-label" for="inputError">Grasp Effort</label>
+                    <input type="number" name="grasp_effort" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span> 
             </div>
-            <div id="grasp_effort" class="robo_param">
-                Grasp Effort: <br>
-                    <input type="number" name="grasp_effort" /> <br>
+            <div id="object" class="robo_param form-group">
+                <label class="control-label" for="inputError">Object</label>
+                    <input type="number" name="object" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
-            <div id="object" class="robo_param">
-                Object: <br>
-                    <input type="number" name="object" /> <br>
+            <div id="orientation" class="robo_param form-group">
+                <label class="control-label" for="inputError">Orientation</label>
+                    <input type="number" name="orientation" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span> 
             </div>
-            <div id="orientation" class="robo_param">
-                Orientation: <br>
-                    <input type="number" name="orientation" /> <br>
+            <div id="angle" class="robo_param form-group">
+                <label class="control-label" for="inputError">Angle</label>
+                    <input type="number" name="angle" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
-            <div id="angle" class="robo_param">
-                Angle: <br>
-                    <input type="number" name="angle" /> <br>
+            <div id="position" class="robo_param form-group">
+                <label class="control-label" for="inputError">Position</label>
+                    <input type="number" name="position" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
-            <div id="position" class="robo_param">
-                Position: <br>
-                    <input type="number" name="position" /> <br>
+            <div id="size" class="robo_param form-group">
+                <label class="control-label" for="inputError">Size</label>
+                    <input type="number" name="size" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
-            <div id="size" class="robo_param">
-                Size: <br>
-                    <input type="number" name="size" /> <br>
+            <div id="relativeX" class="robo_param form-group">
+                <label class="control-label" for="inputError">Relative X</label>
+                    <input type="number" name="relativeX" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
-            <div id="relativeX" class="robo_param">
-                Relative X: <br>
-                    <input type="number" name="relativeX" /> <br>
+            <div id="relativeY" class="robo_param form-group">
+                <label class="control-label" for="inputError">Relative Y</label>
+                    <input type="number" name="relativeY" class="form-control" /> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
-            <div id="relativeY" class="robo_param">
-                Relative Y: <br>
-                    <input type="number" name="relativeY" /> <br>
+            <div id="relativeZ" class="robo_param form-group">
+                <label class="control-label" for="inputError">Relative Z</label>
+                    <input type="number" name="relativeZ" class="form-control" />
+                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
-            <div id="relativeZ" class="robo_param">
-                Relative Z: <br>
-                    <input type="number" name="relativeZ" /> <br>
-            </div>
-            Skills: <br>
-                <input type="checkbox" name="skills[]" value="move"> Move
+            <div class="checkbox">
+            <b>Skills</b> <br>
+                <label><input type="checkbox" name="skills[]" value="move" > Move </label>
                 <br>
-                <input type="checkbox" name="skills[]" value="rotate"> Rotate
+                <label><input type="checkbox" name="skills[]" value="rotate" > Rotate </label>
                 <br>
-            Tools: <br>
-                <input type="checkbox" name="tools[]" value="rotator"> Rotator
+            </div>
+            <div class="checkbox ">
+            <b>Tools</b> <br>
+                <label><input type="checkbox" name="tools[]" value="rotator" > Rotator</label>
                 <br>
-                <input type="checkbox" name="tools[]" value="fastener"> Fastener
+                <label><input type="checkbox" name="tools[]" value="fastener" > Fastener</label>
                 <br>
-            Parents: <br>
+            </div>
+            <div class="checkbox">
+            <b>Parents</b> <br>
                 <% tasks.forEach( function( task ){ %>
-                    <input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.descript %> <%= task.short_id %>
+                    <label><input type="checkbox" name="parents[]" value="<%= task.id %>"> <%= task.descript %> <%= task.short_id %></label>
                     <br>
                 <% }); %>
-
+            </div>
+            <br>
             <input type="submit" value="Submit">
-        </form> <br> <br>
+        </form> 
 
-        <div>
-            <a href="/exports" title="Exports">Export All Tasks</a>
-        </div>
-        <div>
-            <a href="/imports" title="Imports">Import All Tasks</a>
-        </div>
-        <div>
-            <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a>
-        </div>
-        <div>
-            <a onclick="saveWorkspace()" title="SaveWorkspace">Save Workspace</a>
-        </div>
+        <div class="col-sm-4  col-sm-offset-2"> <b>Actions Menu </b>
+            <div>
+                <a href="/exports" title="Exports">Export All Tasks</a>
+            </div>
+            <div>
+                <a href="/imports" title="Imports">Import All Tasks</a>
+            </div>
+            <div>
+                <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a>
+            </div>
+            <div>
+                <a onclick="saveWorkspace()" title="SaveWorkspace">Save Workspace</a>
+            </div>
 
-        <br style="clear:both">
-        <button onclick="taskInventory()">Get Task Inventory</button>
-        <br>
+            <br style="clear:both">
+            <button onclick="taskInventory()">Get Task Inventory</button>
+            <br>
 
-        <div ID="taskInventoryList">
-            List starts here
+            <div ID="taskInventoryList">
+                List starts here
+            </div>
+            <br> Times for Each Task <br>
+            <% times.forEach( function( time ){ %>
+                <%= time %> <br>
+            <%});%>
         </div>
-        <br> Times for Each Task <br>
-        <% times.forEach( function( time ){ %>
-            <%= time %> <br>
-        <%});%>
 
     </div>
 </div>
@@ -514,19 +531,64 @@ function editTask(element) {    //<!-- should  probably do this with database? j
 }
 </script>
 
-    <!-- Menu Toggle Script -->
-    <script>
-    // $(".menu-toggle").click(function(e) {
-    //     e.preventDefault();
-    //     $("#wrapper").toggleClass("toggled");
-    // });
-    </script>
 
 <script>
-// var current order = [];
-// function 
+var formValid = false;
+$( "#grasp_effort" ).focusout(function() {
+    if ($(this).find('input').val() < 0 || $(this).find('input').val() > 100) {
+        updateInvalidInput($(this));
+    }
+    else {
+        updateValidInput($(this));
+    }
+  })
+$( "#object" ).focusout(function() {
+    if ($(this).find('input').val() < 0) {
+        updateInvalidInput($(this));
+    }
+    else {
+        updateValidInput($(this));
+    }
+  })
+
+function updateInvalidInput(element){
+    element.addClass("has-error");
+    element.addClass("has-feedback");
+    element.find('span').show();
+    formValid = false;
+    console.log("should fuck it up");
+}
+
+function updateValidInput(element){
+    element.removeClass("has-error");
+    element.removeClass("has-feedback");
+    element.find('span').hide();
+    formValid = true;
+    console.log("should un-fuck it up");
+}
 
 updateParamsOnDropdown();
+
+
+function validateMyForm()
+{
+    console.log(formValid);
+  if(formValid)
+  { 
+    
+    return true;
+  }
+  // alert("validations passed");
+  alert("Please correct invalid form entries.");
+  return false;
+}
+
+$('#myBigForm').submit(function (evt) {
+    if (validateMyForm() == false) {
+        evt.preventDefault();
+    }
+    // window.history.back();
+});
 </script>
 
 </body>
