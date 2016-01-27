@@ -289,6 +289,19 @@ router.saveworkspace = function (req, res){
   }); 
 };
 
+///// FRONT-SIDE FUNCTIONS /////
+
+function validateMyForm()
+{
+  if (formValid) { 
+    return true;
+  }
+  alert("Please correct invalid form entries.");
+  return false;
+}
+
+
+
 
 
 module.exports = router;
