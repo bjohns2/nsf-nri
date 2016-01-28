@@ -9,13 +9,19 @@ This is built with Node.js, Mongodb, Express.js, Mongoose, Mongolab, and Bootstr
 Once all dependencies are installed (listed in package.json, installed by running "npm install"), run the app by running 'npm start' in the nsf-nri directory. This will run the GUI on localhost. It is currently hosted on heroku at nsf-nri.herokuapp.com. 
 
 ## Navigating the file system
-public/: stylesheets, common javascript, and currently the json for storing task parameters and details; very little 
-routes/: backend processing for each web page
-static/: front-end javascript written exclusively for this app 
-views/: the HTML (technically ejs) files for each web page
-app.js: configuration for serving the app
-db.js: database configuration and connection
-package.json: dependencies/requirements for this app; running "npm install" installs all of these
+**public/**: stylesheets, common javascript, and currently the json for storing task parameters and details; very little 
+
+**routes/**: backend processing for each web page
+
+**static/**: front-end javascript written exclusively for this app 
+
+**views/**: the HTML (technically ejs) files for each web page
+
+**app.js**: configuration for serving the app
+
+**db.js**: database configuration and connection
+
+**package.json**: dependencies/requirements for this app; running "npm install" installs all of these
 
 
 
