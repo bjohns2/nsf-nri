@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Bare - Start Bootstrap Template</title>
+    <title>Task Planner for a Collaborative Robot</title>
 
     <!-- Bootstrap Core CSS -->
     <!-- <link href="stylesheets/bootstrap.min.css" rel="stylesheet"> -->
@@ -44,8 +44,6 @@
     <script src="javascripts/bootstrap.min.js"></script>
     
     
-    <!-- Script that should go in a separate file at some point made it to a separate file!-->
-    <script src= "./index_fe.js"></script>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -182,8 +180,8 @@
 
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h1>Hello! </h1>
-                <p class="lead">This is the model tab.</p>
+                <h1>Task Planner for a Collaborative Robot </h1>
+                <p class="lead">This is the model tab. You can input and edit tasks, reorder them, import & export a series of tasks, and save the current ordering of tasks. </p>
             </div>
         </div>
         <br>
@@ -206,14 +204,12 @@
                           <script> var tasks2 = <%- JSON.stringify(tasks) %> </script>
                           <a onclick="editTask(this, tasks2)" title="Edit" id="<%= task.id %>"><image src="images/edit.png" height="20px"></a>
                         </div>
-                        <div style="border-style: solid;background:white">
+                        <div style="border-style:solid;background:white">
                             <!-- <p>ID: <%= task.id %> -->
+                            <p style="text-align:center"> <%= task.descript %></p>
                                 <%if (task.short_id != null && task.short_id != "") { %>
-                                Short ID: <%= task.short_id %>
+                                Short ID: <%= task.short_id %><br>
                             <% } %>
-
-
-                            <br>Description: <%= task.descript %><br>
                             <%if (parents[task._id].length != 0) { %>
                                 Parents: <%= parents[task._id] %><br>
                             <% } %> 
@@ -256,7 +252,7 @@
                             <% } %> <%if (task.relativeZ != null && task.relativeZ != "") { %>
                                 RelativeZ: <%= task.relativeZ %><br>
                             <% } %> <%if (task.order_number != null && task.order_number != "") { %>
-                                Order Number: <%= task.order_number %><br>
+                                Order Number: <%= task.order_number %>
                             <% } %>  
                         </p>
                             <!-- Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %><br>Object: <%= task.object %><br>Orientation: <%= task.orientation %><br>Angle: <%= task.angle %><br>Position: <%= task.positon %><br>Size: <%= task.size %><br>RelativeX <%= task.relativeX %><br>RelativeY: <%= task.relativeY %><br>RelativeZ: <%= task.relativeZ %></p> -->
@@ -299,7 +295,7 @@
         <form action="/create" method="post" accept-charset="utf-8" style="clear:both" class="form-horizontal col-sm-6" id="myBigForm">
             <div class="form-group"> 
             <!-- Task Description: <br> -->
-            <label class="control-label" for="inputError">Task Description</label>
+            <label class="control-label " for="inputError">Task Description</label>
                 <select id="task-choice" name="descript" class="form-control" >
                     <script>
                     $.getJSON("json_data/message_lookup.json", function(data) { 
@@ -323,47 +319,47 @@
             </div> -->
             <div id="grasp_effort" class="robo_param form-group">
                 <label class="control-label" for="inputError">Grasp Effort</label>
-                    <input type="number" name="grasp_effort" class="form-control" /> 
+                    <input type="number" name="grasp_effort" class="form-control" value="100"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span> 
             </div>
             <div id="object" class="robo_param form-group">
                 <label class="control-label" for="inputError">Object</label>
-                    <input type="number" name="object" class="form-control" /> 
+                    <input type="number" name="object" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div id="orientation" class="robo_param form-group">
                 <label class="control-label" for="inputError">Orientation</label>
-                    <input type="number" name="orientation" class="form-control" /> 
+                    <input type="number" name="orientation" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span> 
             </div>
             <div id="angle" class="robo_param form-group">
                 <label class="control-label" for="inputError">Angle</label>
-                    <input type="number" name="angle" class="form-control" /> 
+                    <input type="number" name="angle" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="position" class="robo_param form-group">
                 <label class="control-label" for="inputError">Position</label>
-                    <input type="number" name="position" class="form-control" /> 
+                    <input type="number" name="position" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="size" class="robo_param form-group">
                 <label class="control-label" for="inputError">Size</label>
-                    <input type="number" name="size" class="form-control" /> 
+                    <input type="number" name="size" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="relativeX" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative X</label>
-                    <input type="number" name="relativeX" class="form-control" /> 
+                    <input type="number" name="relativeX" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="relativeY" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative Y</label>
-                    <input type="number" name="relativeY" class="form-control" /> 
+                    <input type="number" name="relativeY" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="relativeZ" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative Z</label>
-                    <input type="number" name="relativeZ" class="form-control" />
+                    <input type="number" name="relativeZ" class="form-control" value="0"/>
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div class="checkbox">
@@ -422,6 +418,7 @@
 </div>
     <!-- /.container -->
 
+<script src= "./index_fe.js"></script>
 
 </body>
 
