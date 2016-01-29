@@ -318,32 +318,39 @@
                     <input type="text" name="duration" /> <br>
             </div> -->
             <div id="grasp_effort" class="robo_param form-group">
-                <label class="control-label" for="inputError">Grasp Effort</label>
+                <label class="control-label" for="inputError">Grasp Effort</label> 
+                <span for="inputError" class="form-control-feedback-text"> must be between 0 and 100, inclusive. </span>
                     <input type="number" name="grasp_effort" class="form-control" value="100"/> 
-                    <span class="glyphicon glyphicon-remove form-control-feedback"></span> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback"> </span> 
+
             </div>
             <div id="object" class="robo_param form-group">
                 <label class="control-label" for="inputError">Object</label>
+                <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="object" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div id="orientation" class="robo_param form-group">
                 <label class="control-label" for="inputError">Orientation</label>
+                <span for="inputError" class="form-control-feedback-text"> can be either 0 or 1, for now. </span>
                     <input type="number" name="orientation" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback"></span> 
             </div>
             <div id="angle" class="robo_param form-group">
                 <label class="control-label" for="inputError">Angle</label>
+                <span for="inputError" class="form-control-feedback-text"> can be 0, 1, or 2 for now. </span>
                     <input type="number" name="angle" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="position" class="robo_param form-group">
                 <label class="control-label" for="inputError">Position</label>
+                <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="position" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="size" class="robo_param form-group">
                 <label class="control-label" for="inputError">Size</label>
+                <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="size" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
@@ -354,11 +361,13 @@
             </div>
             <div id="relativeY" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative Y</label>
+                <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="relativeY" class="form-control" value="0"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>
             <div id="relativeZ" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative Z</label>
+                <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="relativeZ" class="form-control" value="0"/>
                     <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
             </div>

@@ -112,6 +112,11 @@ a {
     display:none;
 }
 
+.form-control-feedback-text {
+  display:none;
+  color:#a94442;
+}
+
 .editTask_robo_param {
     display:none;
 }
