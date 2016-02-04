@@ -57,6 +57,7 @@ var Task = new Schema({
     relativeY   : String,
     relativeZ   : String,
     order_number: String,
+    max_joint_vel: String,
     short_id    : {
       type: String,
       unique: true,
@@ -89,7 +90,8 @@ Task.plugin(mongooseToCsv, {
     'RelativeY': 'relativeY',
     'RelativeZ': 'relativeZ',
     'OrderNumber': 'order_number',
-    'ShortID': 'short_id'
+    'ShortID': 'short_id',
+    'MaxJointVel': 'max_joint_vel'
   }
   // virtuals: {
   //   'Skills': function(doc) {

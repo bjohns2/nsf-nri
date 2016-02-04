@@ -5,21 +5,23 @@
         "object": 4,
         "orientation":4,
         "angle": 4,
-        "arm": 1
+        "arm": 4,
+        "max_joint_vel": 8
     }
   },
   "transport_loaded": {
     "messageTypeCode": 1,
     "parameters": {
         "position": 4,
-        "arm": 1
+        "arm": 4,
+        "max_joint_vel": 8
     }
   },
   "grasp": {
     "messageTypeCode": 2,
     "parameters": {          
         "grasp_effort": 4,
-        "arm": 1
+        "arm": 4
     }
   },
   "position": {
@@ -27,13 +29,14 @@
     "parameters": {
         "orientation": 4,
         "angle": 4,
-        "arm": 1
+        "arm": 4,
+        "max_joint_vel": 8
     }
   },
   "release_load": {
     "messageTypeCode": 4,
     "parameters": {
-        "arm": 1
+        "arm": 4
     }
   },  
   "movebase": {
@@ -47,14 +50,15 @@
   "retract": {
     "messageTypeCode": 6,
     "parameters": {
-        "arm": 1
+        "arm": 4,
+        "max_joint_vel": 8
     }
   },
   "use_breaker": {
     "messageTypeCode": 7,
     "parameters": {
         "size": 4,
-        "arm": 1
+        "arm": 4
     }
   }
 }

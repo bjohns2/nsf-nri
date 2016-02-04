@@ -191,6 +191,11 @@ function checkIfValid(parameter_name, parameter_value) {
             return true;
         } else { return false; }
         break;
+    case "max_joint_vel":
+        if (true) {
+            return true;
+        } else { return false; }
+        break;
     default:
         return true;
         console.log("Paramter not in Check If Valid function.");

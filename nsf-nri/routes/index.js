@@ -75,7 +75,8 @@ router.update = function ( req, res ){
     task.size        = req.body.size,
     task.relativeX   = req.body.relativeX,
     task.relativeY   = req.body.relativeY,
-    task.relativeZ   = req.body.relativeZ
+    task.relativeZ   = req.body.relativeZ,
+    task.max_joint_vel = req.body.max_joint_vel,
     task.save( function ( err, task, count ){
       res.redirect( '/' );
     });
@@ -85,9 +86,6 @@ router.update = function ( req, res ){
 
 //Redirect the page back to index after the record is created.
 router.create = function ( req, res ){
-  console.log("HI")
-  console.log(req.body.skills)
-  console.log(req.body.tools)
   new Task({
     // agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
     descript    : req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
@@ -105,7 +103,8 @@ router.create = function ( req, res ){
     size        : req.body.size,
     relativeX   : req.body.relativeX,
     relativeY   : req.body.relativeY,
-    relativeZ   : req.body.relativeZ
+    relativeZ   : req.body.relativeZ,
+    max_joint_vel: req.body.max_joint_vel,
     })
     .save( function( err, task, count ){
     res.redirect( '/' );
@@ -133,7 +132,7 @@ router.imports = function (req, res){
   var csv = require('./csv');
   var csvHeaders = {
       Task: {
-        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','position','size','relativeX','relativeY','relativeZ','order_number','short_id']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
+        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','position','size','relativeX','relativeY','relativeZ','order_number','short_id', 'max_joint_vel']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
       }
     }
   //adjust this path to the correct location
@@ -149,7 +148,7 @@ router.sendtasks = function (req, res){
     });
 
     var PORT = 9999;
-    var HOST = '128.30.9.193';
+    var HOST = req.body.ip_destination; //'128.30.9.193';
 
     var myBigMessage = getMessageFromTasks(tasks);
 
@@ -178,7 +177,7 @@ router.sendtasks = function (req, res){
     // client.on('close', function() {
     //   console.log('Connection closed');
     // });
-    times = [2.0,3,0,1.5];
+    // times = [2.0,3,0,1.5];
     res.render( 'index', {
       title : 'Express Todo Example',
       tasks : tasks,

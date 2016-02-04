@@ -30,11 +30,11 @@ This web app has been built to have great flexibility when it comes to adding, c
 
 **task**: If there are no new parameters, simply add the task to message_lookup.json with its message code and parameters. Note that the integer after each parameter is the number of bytes the robot reciever expects for that parameter, and that it's important to list the parameters in the order that the robot reciever expects to recieve them. If there are new parameters, you will need to add each one of those in the following way.
 
-**parameters**: First, on `index.ejs`, add the parameter to the edit, display, and input sections. Those three sections are the majority of the code on the page and should be easy to identify. You can follow the pattern of the other parameters for guidance. Second, add the parameter to the form verification on `index_fe.js` by adding a new case to the `checkIfValid()` function. Third, add the parameter to the two lists in `db.js`. Finally, add them to `router.create`, `router.update', and `router.import` in `index.js`. All done! 
+**parameters**: First, on `index.ejs`, add the parameter to the edit, display, and input sections. Those three sections are the majority of the code on the page and should be easy to identify. You can follow the pattern of the other parameters for guidance. Second, add the parameter to the form verification on `index_fe.js` by adding a new case to the `checkIfValid()` function. Third, add the parameter to the two lists in `db.js`. Finally, add them to `router.create`, `router.update`, and `router.import` in `index.js`. All done! 
 
 ## Misc.
 message_lookup.json: It is imperative that the order of the parameters for each task be the same order as the server is expecting, ie match the structs file. 
 
 ## Copyright and License
 Based on [Bare](http://startbootstrap.com/template-overviews/bare/)
-Copyright 2013-2015 Iron Summit Media Strategies, LLC. Code released under the [Apache 2.0](https://github.com/IronSummitMedia/startbootstrap-bare/blob/gh-pages/LICENSE) license.# nsf-nri
+Copyright 2013-2015 Iron Summit Media Strategies, LLC. Code released under the [Apache 2.0](https://github.com/IronSummitMedia/startbootstrap-bare/blob/gh-pages/LICENSE) license.

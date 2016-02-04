@@ -153,6 +153,10 @@
                 Relative Z: <br>
                     <input type="number" name="relativeZ" id="editTask_form_relativeZ" /> <br>
             </div>
+            <div id="editTask_max_joint_vel" class="editTask_robo_param">
+                Max Joint Velocity: <br>
+                    <input type="number" name="max_joint_vel" id="editTask_form_max_joint_vel" /> <br>
+            </div>
             Skills: <br>
                 <input type="checkbox" name="skills[]" value="move" id="editTask_form_skills_move"> Move
                 <br>
@@ -253,6 +257,8 @@
                                 RelativeZ: <%= task.relativeZ %><br>
                             <% } %> <%if (task.order_number != null && task.order_number != "") { %>
                                 Order Number: <%= task.order_number %>
+                            <% } %> <%if (task.max_joint_vel != null && task.max_joint_vel != "") { %>
+                                Max Joint Velocity: <%= task.max_joint_vel %>
                             <% } %>  
                         </p>
                             <!-- Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %><br>Object: <%= task.object %><br>Orientation: <%= task.orientation %><br>Angle: <%= task.angle %><br>Position: <%= task.positon %><br>Size: <%= task.size %><br>RelativeX <%= task.relativeX %><br>RelativeY: <%= task.relativeY %><br>RelativeZ: <%= task.relativeZ %></p> -->
@@ -322,7 +328,6 @@
                 <span for="inputError" class="form-control-feedback-text"> must be between 0 and 100, inclusive. </span>
                     <input type="number" name="grasp_effort" class="form-control" value="100"/> 
                     <span class="glyphicon glyphicon-remove form-control-feedback"> </span> 
-
             </div>
             <div id="object" class="robo_param form-group">
                 <label class="control-label" for="inputError">Object</label>
@@ -340,36 +345,42 @@
                 <label class="control-label" for="inputError">Angle</label>
                 <span for="inputError" class="form-control-feedback-text"> can be 0, 1, or 2 for now. </span>
                     <input type="number" name="angle" class="form-control" value="0"/> 
-                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div id="position" class="robo_param form-group">
                 <label class="control-label" for="inputError">Position</label>
                 <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="position" class="form-control" value="0"/> 
-                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div id="size" class="robo_param form-group">
                 <label class="control-label" for="inputError">Size</label>
                 <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="size" class="form-control" value="0"/> 
-                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div id="relativeX" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative X</label>
                     <input type="number" name="relativeX" class="form-control" value="0"/> 
-                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div id="relativeY" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative Y</label>
                 <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="relativeY" class="form-control" value="0"/> 
-                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div id="relativeZ" class="robo_param form-group">
                 <label class="control-label" for="inputError">Relative Z</label>
                 <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
                     <input type="number" name="relativeZ" class="form-control" value="0"/>
-                    <span class="glyphicon glyphicon-remove form-control-feedback" id="grasp_effort_feedback"></span> 
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
+            </div>
+            <div id="max_joint_vel" class="robo_param form-group">
+                <label class="control-label" for="inputError">Max Joint Velocity</label>
+                <span for="inputError" class="form-control-feedback-text"> is a required field. </span>
+                    <input type="number" name="max_joint_vel" class="form-control" value="100"/>
+                    <span class="glyphicon glyphicon-remove form-control-feedback" ></span> 
             </div>
             <div class="checkbox">
             <b>Skills</b> <br>
@@ -404,7 +415,10 @@
                 <a href="/imports" title="Imports">Import All Tasks</a>
             </div>
             <div>
-                <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a>
+                <form action="/sendtasks" method="post" accept-charset="utf-8" style="clear:both">
+                    <input type="submit" value="Send Tasks"> to IP <input type="text" name="ip_destination" id="ip_destination_input" value="128.30.9.193"/> 
+                </form>
+                <!-- <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a> -->
             </div>
             <div>
                 <a onclick="saveWorkspace()" title="SaveWorkspace">Save Workspace</a>
