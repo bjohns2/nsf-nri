@@ -157,7 +157,10 @@ router.sendtasks = function (req, res){
 
     var client = new net.Socket();
     client.connect(PORT, HOST, function() {
-      if (err) throw err;
+      if (err){
+        console.log("ERROR: There was an error with the client connection.");
+        throw err;
+      } 
       console.log('Connected');
       for (var i=0; i<myBigMessage.length;i++){
         message = Buffer(myBigMessage[i]);
@@ -168,24 +171,42 @@ router.sendtasks = function (req, res){
     });
 
     client.on('data', function(data) {
+      if (err){
+        console.log("ERROR: There was an error with the client connection while recieving.");
+        throw err;
+      } 
       data = data.readDoubleLE(0);
       console.log('Received: ' + data);
-      times.append(data);
+      times.push(data);
+      if (times.length == myBigMessage.length/2){
+        console.log("finished recieving message");
+        client.destroy();
+      }
       // client.destroy(); // kill client after server's response
     });
-
+    // Get the short IDs of parents before loading the page
+    for (task in tasks) {
+      parents[tasks[task]._id] = [];
+      for (task2 in tasks) {
+        if ( tasks[task].parents.indexOf(tasks[task2]._id.toString()) > -1) {
+          parents[tasks[task]._id].push( tasks[task2].short_id);
+        }
+      }
+    }
+    console.log("parents: " + parents);
     // client.on('close', function() {
     //   console.log('Connection closed');
     // });
-    // times = [2.0,3,0,1.5];
     res.render( 'index', {
       title : 'Express Todo Example',
       tasks : tasks,
+      parents: parents,
       times : times
     });
   });
 };
 
+// Convert an int to a byte
 function toBytesInt32 (num) {
     bytes=new Array(3);
     x=num;
@@ -199,6 +220,7 @@ function toBytesInt32 (num) {
     return bytes;
 }
 
+// Make the header for some task message
 function makeHeader(seqNum, timestamp, messageType) {
   var check = new Array(1);
   check[0]=55;
@@ -210,6 +232,7 @@ function makeHeader(seqNum, timestamp, messageType) {
   return header;
 }
 
+// Make the byte-level message to send from the array of parameters and values
 function makeMessage(parameterArray) {            // parameterArray is of the format [x1,y1,x2,y2,x3,y3] 
   allBytes = [];                                  // where x is the int message and y is number of bytes to output for x
   for (var i = 0; i < parameterArray.length; i=i+2) { // Loop over xs to turn them into bytes
@@ -225,28 +248,45 @@ function makeMessage(parameterArray) {            // parameterArray is of the fo
   return allBytes;
 }
 
+// Get the total message from all populated tasks
 function getMessageFromTasks(tasks) {
   timestamp = 0;
   messageLookup = require("../public/json_data/message_lookup.json");
   bigMessage = [];
   // console.log(tasks.length);
+  var seqNum = 0;
   for (var i = 0; i < tasks.length; i++) {      // For each task, make a message
 
     task = tasks[i];
-    taskHeader = makeHeader(i, timestamp, messageLookup[task.descript]["messageTypeCode"]);
-    taskMessage = [];
-    taskMessage.push(i,4);
-    // console.log(i);
-    for (param in messageLookup[task.descript]["parameters"]){  // For each parameter of a given task, add its param code and number of bytes
-      taskMessage.push(paramValToInt(task[param]));                 // This works given that each param is  [ (int) param code, (int) number of bytes ]
-      taskMessage.push(messageLookup[task.descript]["parameters"][param]);
+    if (task.descript == "pick_and_place") {
+      var tasks_in_pp = ["transport_empty","grasp","transport_loaded","release_load"];
+      for (var j=0; j<4; j++){
+        bigMessage = makeAndPushMessage(seqNum, timestamp, tasks_in_pp[j], task, bigMessage);
+      }
     }
-    taskMessage = makeMessage(taskMessage); 
-    bigMessage.push(taskHeader);
-    bigMessage.push(taskMessage);
+    else {
+      bigMessage = makeAndPushMessage(seqNum, timestamp, task.descript, task, bigMessage)
+    }
   }
   // TODO: and an end_msg
   console.log(bigMessage);
+  return bigMessage;
+}
+
+// Add the message header and message content to bigMessage for some individual task
+function makeAndPushMessage(seqNum, timestamp, taskDescription, task, bigMessage){
+  taskHeader = makeHeader(seqNum, timestamp, messageLookup[taskDescription]["messageTypeCode"]);
+  taskMessage = [];
+  taskMessage.push(seqNum,4);
+  seqNum = seqNum + 1;
+  // console.log(i);
+  for (param in messageLookup[taskDescription]["parameters"]){  // For each parameter of a given task, add its param code and number of bytes
+    taskMessage.push(paramValToInt(task[param]));                 // This works given that each param is  [ (int) param code, (int) number of bytes ]
+    taskMessage.push(messageLookup[taskDescription]["parameters"][param]);
+  }
+  taskMessage = makeMessage(taskMessage); 
+  bigMessage.push(taskHeader);
+  bigMessage.push(taskMessage);
   return bigMessage;
 }
 

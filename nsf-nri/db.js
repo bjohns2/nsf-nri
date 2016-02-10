@@ -28,6 +28,7 @@ mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/test",
       console.log("CONNECTION MADE");
         if (err) {
         console.log("ERROR: There is an error connecting to the db.");
+        console.log(err);
          throw err; }
     }
   );

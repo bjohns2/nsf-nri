@@ -12,7 +12,9 @@ $(function() {
 $.getJSON("json_data/message_lookup.json", function(data) { 
     json_data = data;
 });
-
+    // function getip(json){
+    //   console.log(json.ip); // alerts the ip address
+    // }
 
 
 

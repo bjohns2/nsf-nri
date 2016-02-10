@@ -210,10 +210,8 @@
                         </div>
                         <div style="border-style:solid;background:white">
                             <!-- <p>ID: <%= task.id %> -->
-                            <p style="text-align:center"> <%= task.descript %></p>
-                                <%if (task.short_id != null && task.short_id != "") { %>
-                                Short ID: <%= task.short_id %><br>
-                            <% } %>
+                            <p style="text-align:center;font-size:large"> <%= task.descript %></p>
+
                             <%if (parents[task._id].length != 0) { %>
                                 Parents: <%= parents[task._id] %><br>
                             <% } %> 
@@ -256,10 +254,12 @@
                             <% } %> <%if (task.relativeZ != null && task.relativeZ != "") { %>
                                 RelativeZ: <%= task.relativeZ %><br>
                             <% } %> <%if (task.order_number != null && task.order_number != "") { %>
-                                Order Number: <%= task.order_number %>
+                                Order Number: <%= task.order_number %><br>
                             <% } %> <%if (task.max_joint_vel != null && task.max_joint_vel != "") { %>
-                                Max Joint Velocity: <%= task.max_joint_vel %>
-                            <% } %>  
+                                Max Joint Velocity: <%= task.max_joint_vel %><br>
+                            <% } %> <%if (task.short_id != null && task.short_id != "") { %>
+                                Short ID: <%= task.short_id %><br>
+                            <% } %>
                         </p>
                             <!-- Skills: <%= task.skills %><br>Tools: <%= task.tools %><br>Parents: <%= task.parents %><br>Arm: <%= task.arm %><br>Grasp Effort: <%= task.grasp_effort %><br>Object: <%= task.object %><br>Orientation: <%= task.orientation %><br>Angle: <%= task.angle %><br>Position: <%= task.positon %><br>Size: <%= task.size %><br>RelativeX <%= task.relativeX %><br>RelativeY: <%= task.relativeY %><br>RelativeZ: <%= task.relativeZ %></p> -->
                         </div>
@@ -303,6 +303,7 @@
             <!-- Task Description: <br> -->
             <label class="control-label " for="inputError">Task Description</label>
                 <select id="task-choice" name="descript" class="form-control" >
+
                     <script>
                     $.getJSON("json_data/message_lookup.json", function(data) { 
                         for (key in data){
@@ -416,7 +417,7 @@
             </div>
             <div>
                 <form action="/sendtasks" method="post" accept-charset="utf-8" style="clear:both">
-                    <input type="submit" value="Send Tasks"> to IP <input type="text" name="ip_destination" id="ip_destination_input" value="128.30.9.193"/> 
+                    <input type="submit" value="Send Tasks"> to IP <input type="text" name="ip_destination" id="ip_destination_input" value="128.31.35.87"/> 
                 </form>
                 <!-- <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a> -->
             </div>
@@ -442,6 +443,16 @@
     <!-- /.container -->
 
 <script src= "./index_fe.js"></script>
+
+
+ <!-- Uncomment me if you want the IP input box to be prepopulated with the user's IP -->
+<!-- 
+<script type="text/javascript" src="http://l2.io/ip.js?var=myip"></script>
+<script>
+console.log(myip);
+$("#ip_destination_input").val(myip);
+</script>
+-->
 
 </body>
 

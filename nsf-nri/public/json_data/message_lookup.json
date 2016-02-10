@@ -6,7 +6,7 @@
         "orientation":4,
         "angle": 4,
         "arm": 4,
-        "max_joint_vel": 8
+        "max_joint_vel": 4
     }
   },
   "transport_loaded": {
@@ -14,7 +14,7 @@
     "parameters": {
         "position": 4,
         "arm": 4,
-        "max_joint_vel": 8
+        "max_joint_vel": 4
     }
   },
   "grasp": {
@@ -30,7 +30,7 @@
         "orientation": 4,
         "angle": 4,
         "arm": 4,
-        "max_joint_vel": 8
+        "max_joint_vel": 4
     }
   },
   "release_load": {
@@ -51,7 +51,7 @@
     "messageTypeCode": 6,
     "parameters": {
         "arm": 4,
-        "max_joint_vel": 8
+        "max_joint_vel": 4
     }
   },
   "use_breaker": {
@@ -59,6 +59,18 @@
     "parameters": {
         "size": 4,
         "arm": 4
+    }
+  },
+  "pick_and_place": {
+    "messageTypeCode": 8,
+    "parameters": {
+        "object": 4,
+        "orientation":4,
+        "angle": 4,
+        "arm": 4,
+        "max_joint_vel": 4,
+        "grasp_effort": 4,
+        "position": 4
     }
   }
 }
