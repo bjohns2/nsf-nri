@@ -7,7 +7,7 @@ a {
   color: #00B7FF;
 }
 
-.tools-arrow {
+.skills-arrow {
   background: #b3ffcc;
   display: inline-block;
   height: 22px;
@@ -16,7 +16,7 @@ a {
     position: relative;
     width: 80px;
 }
-.tools-arrow:before {
+.skills-arrow:before {
   border-top: 11px solid transparent;
   border-bottom: 11px solid transparent;
   border-left: 11px solid #b3ffcc;
@@ -29,16 +29,16 @@ a {
 }
 
 
-.skills-arrow { /*TODO: make underscore, not dash*/
+.tools-arrow { /*TODO: make underscore, not dash*/
   background: #b3ffcc;
   display: inline-block;
   height: 22px;
   /*margin-left: 40px;
   margin-top: 55px;*/
     position: relative;
-    width: 80px;
+    width: 90px;
 }
-.skills-arrow:before {
+.tools-arrow:before {
   border-top: 11px solid transparent;
   border-bottom: 11px solid transparent;
   border-right: 11px solid #b3ffcc;

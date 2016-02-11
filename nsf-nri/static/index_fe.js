@@ -168,7 +168,7 @@ function checkIfValid(parameter_name, parameter_value) {
             return true;
         } else { return false; }
         break;
-    case "position":
+    case "location":
         if (true) {
             return true;
         } else { return false; }

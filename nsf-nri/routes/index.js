@@ -11,7 +11,7 @@ mongoose.set('debug', true);
 /* GET index page. */
 router.get('/', function(req, res, next) {
   parents={};
-  console.log("parents: " + parents);
+  // console.log("parents: " + parents);
   // Sort the tasks by their order number
   Task.find( function ( err, tasks, count ){
     tasks.sort(function(a, b){
@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
         }
       }
     }
-    console.log("parents: " + parents);
+    // console.log("parents: " + parents);
     res.render( 'index', {
       title : 'Express Todo Example',
       tasks : tasks,
@@ -71,7 +71,7 @@ router.update = function ( req, res ){
     task.object      = req.body.object,
     task.orientation = req.body.orientation,
     task.angle       = req.body.angle,
-    task.position    = req.body.position,
+    task.location    = req.body.location,
     task.size        = req.body.size,
     task.relativeX   = req.body.relativeX,
     task.relativeY   = req.body.relativeY,
@@ -86,12 +86,21 @@ router.update = function ( req, res ){
 
 //Redirect the page back to index after the record is created.
 router.create = function ( req, res ){
+  // First, make tools the relevant info
+  tools = [];
+  if (req.body.descript =="transport_empty"){
+    tools=["object"]
+  } else if (req.body.descript =="transport_loaded"){
+    tools=["location"]
+  } else if (req.body.descript =="position"){
+    tools=["orientation","angle"]
+  }
   new Task({
     // agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
     descript    : req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
     duration    : req.body.duration, // some time; autopopulate for robot?
     skills      : req.body.skills, 
-    tools       : req.body.tools,
+    tools       : tools,
     parents     : req.body.parents,
     updated_at  : Date.now(),
     arm         : req.body.arm,
@@ -99,7 +108,7 @@ router.create = function ( req, res ){
     object      : req.body.object,
     orientation : req.body.orientation,
     angle       : req.body.angle,
-    position    : req.body.position,
+    location    : req.body.location,
     size        : req.body.size,
     relativeX   : req.body.relativeX,
     relativeY   : req.body.relativeY,
@@ -132,7 +141,7 @@ router.imports = function (req, res){
   var csv = require('./csv');
   var csvHeaders = {
       Task: {
-        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','position','size','relativeX','relativeY','relativeZ','order_number','short_id', 'max_joint_vel']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
+        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','location','size','relativeX','relativeY','relativeZ','order_number','short_id', 'max_joint_vel']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
       }
     }
   //adjust this path to the correct location
@@ -161,10 +170,11 @@ router.sendtasks = function (req, res){
         console.log("ERROR: There was an error with the client connection.");
         throw err;
       } 
-      console.log('Connected');
+      console.log('Connected to client on host ' + HOST+':'+ PORT);
       for (var i=0; i<myBigMessage.length;i++){
         message = Buffer(myBigMessage[i]);
-        console.log('Sending message to ' + HOST +':'+ PORT + ': ' + myBigMessage[i]); 
+        console.log('Sending message ' + i + ' to ' + HOST +':'+ PORT + ': ' + myBigMessage[i]); 
+        // console.log(myBigMessage[i]);
         client.write(message);
       }
       
@@ -269,7 +279,8 @@ function getMessageFromTasks(tasks) {
     }
   }
   // TODO: and an end_msg
-  console.log(bigMessage);
+  // console.log(bigMessage);
+  console.log("I made a big message");
   return bigMessage;
 }
 

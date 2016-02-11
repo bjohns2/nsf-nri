@@ -52,7 +52,7 @@ var Task = new Schema({
     object      : String,
     orientation : String,
     angle       : String,
-    position    : String,
+    location    : String,
     size        : String,
     relativeX   : String,
     relativeY   : String,
@@ -70,7 +70,7 @@ var TaskModel = mongoose.model( 'Task', Task );
 
 
 Task.plugin(mongooseToCsv, {
-  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort Object Orientation Angle Position Size RelativeX RelativeY RelativeZ OrderNumber ShortID',
+  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort Object Orientation Angle Location Size RelativeX RelativeY RelativeZ OrderNumber ShortID',
   constraints: {
     'ID': '_id',
     // 'Agent': 'agent',
@@ -85,7 +85,7 @@ Task.plugin(mongooseToCsv, {
     'Object': 'object',
     'Orientation': 'orientation',
     'Angle': 'angle',
-    'Position': 'position',
+    'Location': 'location',
     'Size': 'size',
     'RelativeX': 'relativeX',
     'RelativeY': 'relativeY',

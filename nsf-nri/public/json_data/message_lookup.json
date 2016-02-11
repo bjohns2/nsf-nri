@@ -12,7 +12,7 @@
   "transport_loaded": {
     "messageTypeCode": 1,
     "parameters": {
-        "position": 4,
+        "location": 4,
         "arm": 4,
         "max_joint_vel": 4
     }
@@ -70,7 +70,7 @@
         "arm": 4,
         "max_joint_vel": 4,
         "grasp_effort": 4,
-        "position": 4
+        "location": 4
     }
   }
 }
