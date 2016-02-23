@@ -4,6 +4,7 @@ var router = express.Router();
 var mongoose = require( 'mongoose' );
 var Task     = mongoose.model( 'Task' );
 var fs = require('fs');
+// require('./index_fe.js')
 
 mongoose.set('debug', true);
 
@@ -64,7 +65,7 @@ router.update = function ( req, res ){
     task.duration    = req.body.duration, // some time; autopopulate for robot?
     task.skills      = req.body.skills, 
     task.tools       = req.body.tools,
-    task.parents     = req.body.parents,
+    task.parents     = task.parents,
     task.updated_at  = Date.now(),
     task.arm         = req.body.arm,
     task.grasp_effort= req.body.grasp_effort,
@@ -77,6 +78,7 @@ router.update = function ( req, res ){
     task.relativeY   = req.body.relativeY,
     task.relativeZ   = req.body.relativeZ,
     task.max_joint_vel = req.body.max_joint_vel,
+    task.is_supertask = task.is_supertask,
     task.save( function ( err, task, count ){
       res.redirect( '/' );
     });
@@ -87,20 +89,20 @@ router.update = function ( req, res ){
 //Redirect the page back to index after the record is created.
 router.create = function ( req, res ){
   // First, make tools the relevant info
-  tools = [];
-  if (req.body.descript =="transport_empty"){
-    tools=["object"]
-  } else if (req.body.descript =="transport_loaded"){
-    tools=["location"]
-  } else if (req.body.descript =="position"){
-    tools=["orientation","angle"]
-  }
+  // tools = [];
+  // if (req.body.descript =="transport_empty"){
+  //   tools=["object"]
+  // } else if (req.body.descript =="transport_loaded"){
+  //   tools=["location"]
+  // } else if (req.body.descript =="position"){
+  //   tools=["orientation","angle"]
+  // }
   new Task({
     // agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
     descript    : req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
     duration    : req.body.duration, // some time; autopopulate for robot?
     skills      : req.body.skills, 
-    tools       : tools,
+    tools       : req.body.tools,
     parents     : req.body.parents,
     updated_at  : Date.now(),
     arm         : req.body.arm,
@@ -114,19 +116,31 @@ router.create = function ( req, res ){
     relativeY   : req.body.relativeY,
     relativeZ   : req.body.relativeZ,
     max_joint_vel: req.body.max_joint_vel,
+    is_supertask: req.body.is_supertask,
+    order_number: new Date().getTime() / 1000,
     })
     .save( function( err, task, count ){
-    res.redirect( '/' );
+      res.redirect( '/' );
   });
 };
 
 // remove todo item by its id
 router.destroy = function ( req, res ){
-  Task.findById( req.params.id, function ( err, todo ){
-    todo.remove( function ( err, todo ){
-      res.redirect( '/' );
+  Task.findById( req.params.id, function ( err, task ){
+    task.remove( function ( err, task ){
+      // res.redirect( '/' );
     });
   });
+  Task.find( { 'parents': [req.params.id] }, function ( err, tasks ){
+    if (tasks != null){
+      for (task in tasks){
+        tasks[task].remove( function ( err, task ){
+          // res.redirect( '/' );
+        });
+      }
+    }
+  });
+  res.redirect( '/');
 };
 
 router.exports = function (req, res){
@@ -141,7 +155,7 @@ router.imports = function (req, res){
   var csv = require('./csv');
   var csvHeaders = {
       Task: {
-        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','location','size','relativeX','relativeY','relativeZ','order_number','short_id', 'max_joint_vel']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
+        headers: ['_id', 'descript', 'duration', 'skills', 'Skill2', 'tools', 'Tool2', 'updated_at', 'parents', 'arm', 'grasp_effort', 'object','orientation','angle','location','size','relativeX','relativeY','relativeZ','order_number','short_id', 'max_joint_vel', 'is_supertask']//'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents'//
       }
     }
   //adjust this path to the correct location
@@ -151,14 +165,15 @@ router.imports = function (req, res){
 };
 
 router.sendtasks = function (req, res){
-  tasks = Task.find( function ( err, tasks, count ){  // Get all the tasks
+    tasks = Task.find( { 'is_supertask': 'false' }, function ( err, tasks, count ){  // Get all the tasks
+    console.log(tasks);
     tasks.sort(function(a, b){
       return parseInt(a.order_number) - parseInt(b.order_number);
     });
 
     var PORT = 9999;
     var HOST = req.body.ip_destination; //'128.30.9.193';
-
+    console.log("HOST: " + HOST);
     var myBigMessage = getMessageFromTasks(tasks);
 
     var net = require('net');
@@ -168,22 +183,27 @@ router.sendtasks = function (req, res){
     client.connect(PORT, HOST, function() {
       if (err){
         console.log("ERROR: There was an error with the client connection.");
-        throw err;
+        next(err);
       } 
-      console.log('Connected to client on host ' + HOST+':'+ PORT);
-      for (var i=0; i<myBigMessage.length;i++){
-        message = Buffer(myBigMessage[i]);
-        console.log('Sending message ' + i + ' to ' + HOST +':'+ PORT + ': ' + myBigMessage[i]); 
-        // console.log(myBigMessage[i]);
-        client.write(message);
+        console.log('Connected to client on host ' + HOST+':'+ PORT);
+        for (var i=0; i<myBigMessage.length;i++){
+          message = Buffer(myBigMessage[i]);
+          console.log('Sending message ' + i + ' to ' + HOST +':'+ PORT + ': ' + myBigMessage[i]); 
+          // console.log(myBigMessage[i]);
+          client.write(message);
+        
       }
-      
+    });
+
+    client.on('error', function (err) { 
+      console.log("ERROR: There was an error with the client connection while recieving.");
+  /* handle errors here */ 
     });
 
     client.on('data', function(data) {
       if (err){
-        console.log("ERROR: There was an error with the client connection while recieving.");
-        throw err;
+        // console.log("ERROR: There was an error with the client connection while recieving.");
+        next(err); //throw err;
       } 
       data = data.readDoubleLE(0);
       console.log('Received: ' + data);
@@ -195,24 +215,25 @@ router.sendtasks = function (req, res){
       // client.destroy(); // kill client after server's response
     });
     // Get the short IDs of parents before loading the page
-    for (task in tasks) {
-      parents[tasks[task]._id] = [];
-      for (task2 in tasks) {
-        if ( tasks[task].parents.indexOf(tasks[task2]._id.toString()) > -1) {
-          parents[tasks[task]._id].push( tasks[task2].short_id);
-        }
-      }
-    }
+    // for (task in tasks) {
+    //   parents[tasks[task]._id] = [];
+    //   for (task2 in tasks) {
+    //     if ( tasks[task].parents.indexOf(tasks[task2]._id.toString()) > -1) {
+    //       parents[tasks[task]._id].push( tasks[task2].short_id);
+    //     }
+    //   }
+    // }
     console.log("parents: " + parents);
     // client.on('close', function() {
     //   console.log('Connection closed');
     // });
-    res.render( 'index', {
-      title : 'Express Todo Example',
-      tasks : tasks,
-      parents: parents,
-      times : times
-    });
+    // res.render( 'index', {
+    //   title : 'Express Todo Example',
+    //   tasks : tasks,
+    //   parents: parents,
+    //   times : times
+    // });
+    res.redirect('/');
   });
 };
 
@@ -229,6 +250,45 @@ function toBytesInt32 (num) {
     bytes[3]=x & (255);
     return bytes;
 }
+
+function toBytesFloat32 (value) {
+    // var bytes = 0;
+    // switch (value) {
+    //     case Number.POSITIVE_INFINITY: bytes = 0x7F800000; break;
+    //     case Number.NEGATIVE_INFINITY: bytes = 0xFF800000; break;
+    //     case +0.0: bytes = 0x40000000; break;
+    //     case -0.0: bytes = 0xC0000000; break;
+    //     default:
+    //         if (Number.isNaN(value)) { bytes = 0x7FC00000; break; }
+
+    //         if (value <= -0.0) {
+    //             bytes = 0x80000000;
+    //             value = -value;
+    //         }
+
+    //         var exponent = Math.floor(Math.log(value) / Math.log(2));
+    //         var significand = ((value / Math.pow(2, exponent)) * 0x00800000) | 0;
+
+    //         exponent += 127;
+    //         if (exponent >= 0xFF) {
+    //             exponent = 0xFF;
+    //             significand = 0;
+    //         } else if (exponent < 0) exponent = 0;
+    //         console.log(bytes);
+    //         bytes = bytes | (exponent << 23);
+    //         console.log(bytes);
+    //         bytes = bytes | (significand & ~(-1 << 23));
+    //     break;
+    // }
+    // console.log(typeof bytes);
+    bytes = [];
+    bytesbuffer = Float32Array([value]);
+    for (byteb in bytesbuffer.buffer) {
+      bytes.push(bytesbuffer.buffer[byteb]);
+    }
+    // console.log(bytes.slice(0,4));
+    return bytes.slice(0,4);
+};
 
 // Make the header for some task message
 function makeHeader(seqNum, timestamp, messageType) {
@@ -249,10 +309,15 @@ function makeMessage(parameterArray) {            // parameterArray is of the fo
     x = parameterArray[i];
     y = parameterArray[i+1];
     xBytes = new Array(y);
-    for (var j = 0; j < y; j++) {                     // Loop over ys to make each byte of the x value
-      xBytes[j] = x & (255);
-      x = x>>8;
+    if (typeof x == "string"){
+      xBytes = toBytesFloat32(parseFloat(x));
+    } else {
+      for (var j = 0; j < y; j++) {                     // Loop over ys to make each byte of the x value
+        xBytes[j] = x & (255);
+        x = x>>8;
+      }
     }
+    console.log(xBytes);
     allBytes = allBytes.concat(xBytes); // possibly better to initialize a properly sized array and add in; not sure if it matters
   }
   return allBytes;
@@ -286,13 +351,19 @@ function getMessageFromTasks(tasks) {
 
 // Add the message header and message content to bigMessage for some individual task
 function makeAndPushMessage(seqNum, timestamp, taskDescription, task, bigMessage){
+  taskDescription = taskDescription.replace(/\s+/g, '');
+  console.log(taskDescription);
   taskHeader = makeHeader(seqNum, timestamp, messageLookup[taskDescription]["messageTypeCode"]);
   taskMessage = [];
   taskMessage.push(seqNum,4);
   seqNum = seqNum + 1;
   // console.log(i);
   for (param in messageLookup[taskDescription]["parameters"]){  // For each parameter of a given task, add its param code and number of bytes
-    taskMessage.push(paramValToInt(task[param]));                 // This works given that each param is  [ (int) param code, (int) number of bytes ]
+    if (param == "max_joint_vel") {
+      taskMessage.push(paramValToFloat(task[param])) // TODO: THIS IS HORRIBLE CODE, IT'S JUST PUSHING THE VAL AS A STRING D: D: D:
+    } else {                                          // I, TOO, WEEP IN HONOR OF GOOD PRACTICE
+      taskMessage.push(paramValToInt(task[param]));                 // This works given that each param is  [ (int) param code, (int) number of bytes ]
+    }
     taskMessage.push(messageLookup[taskDescription]["parameters"][param]);
   }
   taskMessage = makeMessage(taskMessage); 
@@ -309,25 +380,34 @@ function paramValToInt(paramVal) {
     return 1;
   }
   else {
-    paramVal = parseInt(paramVal);
+    paramVal = parseFloat(paramVal);
   }
+  return paramVal;
+}
+
+function paramValToFloat(paramVal) {
   return paramVal;
 }
 
 
 router.saveworkspace = function (req, res){
+  console.log("saving the workspace!!");
+  // console.log(req.body.divsdict);
   function asyncLoop( k, callback ) {         // loop through each task and update its order number
-    loopsize = Object.keys(req.body).length;
+    loopsize = Object.keys(req.body.divsdict).length;
     if (k<loopsize) {
-      task = Object.keys(req.body)[k];
+      task = Object.keys(req.body.divsdict)[k];
       Task.findById(task, function (err, doc){
-        doc.order_number = req.body[task];
+        doc.order_number = req.body.divsdict[task];
+        if (req.body.parsdict[task] != undefined && doc.parents != req.body.parsdict[task]){
+          doc.parents = req.body.parsdict[task];
+        }
         doc.save();
         asyncLoop( k+1, callback );
       });
     }
     else {
-        callback();
+      res.end('It worked!');
     }
   }
   asyncLoop( 0, function() {              // when done looping, sort the tasks by their new order number and refresh the page

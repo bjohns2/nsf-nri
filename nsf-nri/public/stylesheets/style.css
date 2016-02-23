@@ -51,11 +51,11 @@ a {
 }
 
 .task-steps {
-    border: 1px solid #aaaaaa;
+    border: 1px solid transparent;
     /*background: linear-gradient(0deg, white 40%, gray 60%); */
     /*#cccccc url("images/ui-bg_highlight-soft_75_cccccc_1x100.png") 50% 50% repeat-x;*/
     color: #222222;
-    font-weight: bold;
+    /*font-weight: bold;*/
     height: auto;
     width: auto;
     /*overflow-x:scroll;*/
@@ -79,8 +79,9 @@ a {
 }
 
 #my_container {
-    background: linear-gradient(0deg, white 40%, #cccccc 60%); 
+    background:  linear-gradient(90deg, #404040 , #66d4ff 10%,#66d4ff 90%, #404040 ); /*#66d4ff; /* linear-gradient(0deg, white 40%, #cccccc 60%); */
     width:auto;
+    z-index: 0;
 }
 
 ::-webkit-scrollbar { /* Dumb Macs have dissapearing scrollbars */
@@ -93,15 +94,19 @@ a {
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 
-.task {
+.task, .therblig-template {
     width: 220px; 
-    height: 300px; 
+    /*height: 300px; */
     padding: 5px; 
     float: left; 
     margin: 0 10px 10px 0; 
     font-size: .9em; 
     background: transparent;
     border:none;
+}
+
+.therblig {
+  /*background: blue;*/
 }
 
 .robo_param {
@@ -120,3 +125,19 @@ a {
 .editTask_robo_param {
     display:none;
 }
+
+.bigtask {
+  background: linear-gradient(white 80%, #404040  ); 
+  overflow-y:scroll;
+  overflow-x:visible;
+  border:solid;
+  width:240px;
+  height:400px;
+  float:left;
+  margin-right:10px;
+  z-index: 1;
+}
+
+
+
+

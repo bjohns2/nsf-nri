@@ -59,6 +59,7 @@ var Task = new Schema({
     relativeZ   : String,
     order_number: String,
     max_joint_vel: String,
+    is_supertask: String,
     short_id    : {
       type: String,
       unique: true,
@@ -70,7 +71,7 @@ var TaskModel = mongoose.model( 'Task', Task );
 
 
 Task.plugin(mongooseToCsv, {
-  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort Object Orientation Angle Location Size RelativeX RelativeY RelativeZ OrderNumber ShortID',
+  headers: 'ID Descript Duration Skills Skill2 Tools Tool2 Updated_At Parents Arm Grasp_Effort Object Orientation Angle Location Size RelativeX RelativeY RelativeZ OrderNumber ShortID MaxJointVel IsSupertask',
   constraints: {
     'ID': '_id',
     // 'Agent': 'agent',
@@ -92,7 +93,8 @@ Task.plugin(mongooseToCsv, {
     'RelativeZ': 'relativeZ',
     'OrderNumber': 'order_number',
     'ShortID': 'short_id',
-    'MaxJointVel': 'max_joint_vel'
+    'MaxJointVel': 'max_joint_vel',
+    'IsSupertask': 'is_supertask'
   }
   // virtuals: {
   //   'Skills': function(doc) {
