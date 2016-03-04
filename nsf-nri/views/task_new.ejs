@@ -37,6 +37,18 @@
             <%if (task.descript == "use_breaker") { %>
                 <b> <%= task.arm %></b> arm %></b>
             <% } %>
+            <%if (task.descript == "select") { %>
+                object <b><%= task.object %></b>
+            <% } %>
+            <%if (task.descript == "preposition") { %>
+                 <b> <%= task.arm %></b> arm
+            <% } %>
+            <%if (task.descript == "rest") { %>
+                duration <b> <%= task.object %></b>
+            <% } %>
+            <%if (task.descript == "hold") { %>
+                duration <b> <%= task.object %></b>
+            <% } %>
 
         </div>
     </div>

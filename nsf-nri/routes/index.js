@@ -97,9 +97,15 @@ router.create = function ( req, res ){
   // } else if (req.body.descript =="position"){
   //   tools=["orientation","angle"]
   // }
+  var taskDescription = req.body.descript;
+  console.log("false" == req.body.is_supertask);
+  if (req.body.is_supertask == "false"){
+    console.log("not a supertas");
+    taskDescription = taskDescription.replace(/\s/g, '');
+  } 
   new Task({
     // agent      : req.body.agent, // Should be either 'robot' or 'human'; this will need a binary selector
-    descript    : req.body.descript, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
+    descript    : taskDescription, // Task name; 'grip', 'ungrip', etc.; this will need to have a list of options
     duration    : req.body.duration, // some time; autopopulate for robot?
     skills      : req.body.skills, 
     tools       : req.body.tools,

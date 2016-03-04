@@ -101,14 +101,15 @@
 
                 </li>
 
-            <form action="/update" method="post" accept-charset="utf-8" style="clear:both">
-            <!-- <div id="artm" class="edit_param"> -->
+            <form action="/update" method="post" accept-charset="utf-8" style="clear:both" id="edit-form">
+            <div id="editTask_Id" >
                 ID: <br>
                     <input type="text" name="id" id="editTask_id"/> <br>
-                <div id="editTask_descript">
+            </div>
+            <div id="editTask_descript">
                 Description: <br>
                     <input type="text" name="descript" id="editTask_form_descript" value=""/> <br>
-                </div>
+            </div>
             <div id="editTask_arm" class="editTask_robo_param">
                 Arm: <br>
                     <input type="text" name="arm" id="editTask_form_arm" value="left"/> <br>
@@ -185,7 +186,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h1>Task Planner for a Collaborative Robot </h1>
-                <p class="lead">This is the model tab. You can input and edit tasks, reorder them, import & export a series of tasks, and save the current ordering of tasks. </p>
+ <!--                <p class="lead">This is the model tab. You can input and edit tasks, reorder them, import & export a series of tasks, and save the current ordering of tasks. </p> -->
             </div>
         </div>
         <br>
@@ -197,7 +198,7 @@
                 <br><br><br><br><br><br><br><br> 
                 <div class="header_rotate" style="font-size:x-large;width:100px"> <p>  </p></div>
             </div> -->
-            <div class="task-steps" style="overflow-x:scroll;overflow-y:visible;height:450px">
+            <div class="task-steps" style="overflow-x:scroll;overflow-y:visible;height:550px">
                 <div style="width:5000px;overflow-y:visible" class="sortable"> <!-- TODO: this width / overflow thing is a little hacky -->
                 <!-- <p> Tasks </p> -->
 
@@ -223,38 +224,57 @@
         </div>
         <br>
 
-
-        <div id="template_transport_emtpy" class=" therblig-template" style="float:left;position:static;"> 
-            <div style="border-style:solid;background:white">
-                <p style="text-align:center;font-size:large"> transport_empty </p>
-                    left arm to object 1
+        <div id="template_wrapper">
+            <div id="template_transport_emtpy" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> transport_empty </p>
+                        left arm to object 1
+                </div>
+            </div>
+            <div id="template_grasp" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> grasp </p>
+                        left arm 
+                </div>
+            </div>
+            <div id="template_transport_loaded" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> transport_loaded </p>
+                        left arm to location 1
+                </div>
+            </div>
+            <div id="template_position" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> position </p>
+                        left arm
+                </div>
+            </div>
+            <div id="template_release_load" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> release_load </p>
+                        left arm
+                </div>
+            </div>
+            <div id="template_select" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> select </p>
+                        object 0
+                </div>
+            </div>
+            <div id="template_preposition" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> preposition </p>
+                        left arm
+                </div>
+            </div>
+            <div id="template_rest" class=" therblig-template" style="float:left;position:static;"> 
+                <div style="border-style:solid;background:white">
+                    <p style="text-align:center;font-size:large"> rest </p>
+                        duration 1
+                </div>
             </div>
         </div>
-        <div id="template_grasp" class=" therblig-template" style="float:left;position:static;"> 
-            <div style="border-style:solid;background:white">
-                <p style="text-align:center;font-size:large"> grasp </p>
-                    left arm 
-            </div>
-        </div>
-        <div id="template_transport_loaded" class=" therblig-template" style="float:left;position:static;"> 
-            <div style="border-style:solid;background:white">
-                <p style="text-align:center;font-size:large"> transport_loaded </p>
-                    left arm to location 1
-            </div>
-        </div>
-        <div id="template_position" class=" therblig-template" style="float:left;position:static;"> 
-            <div style="border-style:solid;background:white">
-                <p style="text-align:center;font-size:large"> position </p>
-                    left arm
-            </div>
-        </div>
-        <div id="template_release_load" class=" therblig-template" style="float:left;position:static;"> 
-            <div style="border-style:solid;background:white">
-                <p style="text-align:center;font-size:large"> release_load </p>
-                    left arm
-            </div>
-        </div>
-        <div id="template_movebase" class=" therblig-template" style="float:left;position:static;"> 
+<!--         <div id="template_movebase" class=" therblig-template" style="float:left;position:static;"> 
             <div style="border-style:solid;background:white">
                 <p style="text-align:center;font-size:large"> movebase </p>
                     to 0,0,0
@@ -271,7 +291,7 @@
                 <p style="text-align:center;font-size:large"> use_breaker </p>
                     left arm
             </div>
-        </div>
+        </div> -->
 
 
 
@@ -373,26 +393,26 @@
             <br>
             <input type="submit" value="Submit">
         </form>  -->
-<br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br>
                 <!-- <form action="/sendtasks" method="post" accept-charset="utf-8" style="clear:both"> -->
-                    <button onclick="createSupertask()">Create New Supertask</button> named <input type="text" name="supertask_name" id="supertask_name_input"/> 
-                <!-- </form> -->
-        <div > <b>Actions Menu </b>
-            <div>
+                    <button onclick="createSupertask()">Create New Supertask</button> named <input type="text" name="supertask_name" id="supertask_name_input"/> <br>
+                <!-- </form> --> 
+        <div > <!-- <b>Actions Menu </b> -->
+<!--             <div>
                 <a href="/exports" title="Exports">Export All Tasks</a>
             </div>
             <div>
                 <a href="/imports" title="Imports">Import All Tasks</a>
-            </div>
+            </div> -->
             <div>
                 <!-- action="/sendtasks" method="post" -->
-                <form  action="/sendtasks" method="post" accept-charset="utf-8" style="clear:both" id="sendTasks_form">  
+                <form  action="/sendtasks" method="post" accept-charset="utf-8" style="clear:both" id="sendTasks_form">  <br>
                     <input type="submit" value="Send Tasks"> to IP <input type="text" name="ip_destination" id="ip_destination_input" value="128.31.35.87"/> 
                 </form>
                 <!-- <a href="/sendtasks" title="SendTasks">Send Tasks to Robot</a> -->
-            </div>
+<br>            </div>
             <div>
-                <a onclick="saveWorkspace()" title="SaveWorkspace">Save Workspace</a>
+                <a onclick="saveWorkspace()" title="SaveWorkspace">Save Workspace</a> <br>
             </div>
 
             <br style="clear:both">
@@ -402,10 +422,10 @@
             <div ID="taskInventoryList">
                 List starts here
             </div>
-            <br> Times for Each Task <br>
+           <!--  <br> Times for Each Task <br>
             <% times.forEach( function( time ){ %>
                 <%= time %> <br>
-            <%});%>
+            <%});%> -->
         </div>
 
 </div>

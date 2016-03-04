@@ -72,5 +72,36 @@
         "grasp_effort": 4,
         "location": 4
     }
+  },
+  "select": {
+    "messageTypeCode": 9,
+    "parameters": {
+        "object": 4
+    }
+  },
+  "preposition": {
+    "messageTypeCode": 10,
+    "parameters": {
+        "orientation": 4,
+        "angle": 4,
+        "arm": 4,
+        "max_joint_vel": 4
+    }
+  },
+  "hold": {
+    "messageTypeCode": 11,
+    "parameters": {
+        "duration": 4,
+        "grasp_effort": 4
+    }
+  },
+  "rest": {
+    "messageTypeCode": 12,
+    "parameters": {
+        "duration": 4
+    }
   }
 }
+
+
+

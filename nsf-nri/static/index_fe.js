@@ -51,8 +51,8 @@ $(function() {
         console.log($(this).attr('id'));
         ui.draggable.clone().addClass("therblig")
             .appendTo($(this))
-            .append('<a href="/destroy/555" title="Delete"><image src="images/delete.png" height="20px"></a>'
-                +' <a onclick="editTask(this, tasks2)" title="Edit" id="555"><image src="images/edit.png" height="20px"></a>');
+            // .append('<a href="/destroy/555" title="Delete"><image src="images/delete.png" height="20px"></a>'
+            //     +' <a onclick="editTask(this, tasks2)" title="Edit" id="555"><image src="images/edit.png" height="20px"></a>');
         createNewFromDefault(ui.draggable.find("p").html(), $(this).attr('id'));
         console.log($(this).attr('id'));
       }
@@ -107,6 +107,7 @@ function createNewFromDefault(therbligType, parentId) {
         is_supertask: "false",
     }
     $.post("/create", dataDict, function(){ //data, status){
+        location.reload();
     });
 }
 
