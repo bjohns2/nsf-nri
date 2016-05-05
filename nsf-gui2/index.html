@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    
+    <link href="http://evulse.github.io/finderSelect/prettify.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 70px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    </style>
+        <style>
+        tr.selected {
+            background-color: #3875d7;
+            color: #FFF;
+        }
+
+        tr.selected td {
+            background-color: #3875d7;
+            color: #FFF;
+        }
+        .safezone {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+        .icon-none {
+            opacity: 0;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Start Bootstrap</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>A Bootstrap Starter Template</h1>
+                <p class="lead">Complete with pre-defined file paths that you won't have to change!</p>
+            </div>
+        </div>
+        <!-- /.row -->
+        
+        <div id="timeline" style="height: 180px;"></div>
+
+        <div class="col-md-3 text-center">
+            <div style="border: 2px solid black">
+                <h1>Therbligs</h1>
+                <p class="lead">Put the Therbligs here
+            </div>
+            <div style="border: 2px solid black">
+                <h1>Learned Tasks</h1>
+                <p class="lead">Put the learned tasks here
+            </div>
+        </div>
+        <div class="col-md-6" style="border: 2px solid black">
+            <h1>Timeline</h1>
+            <table class="table table-condensed" id="demo11">
+            <tr data-path="/Images" class="folder">
+                <td colspan="3">
+                    <i class="icon-angle-right icon-fixed-width"></i>
+                    <i class="icon-folder-close icon-fixed-width"></i>
+                    Make Table
+                </td>
+            </tr>
+            <tr data-path="/Images/Icons" class="folder">
+                <td colspan="3">
+                    <i class="icon-angle-right icon-fixed-width"></i>
+                    <i class="icon-folder-close icon-fixed-width"></i>
+                    Make top
+                </td>
+            </tr>
+            </tr>
+            <tr data-path="/Images/Icons/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Draw Image</td>
+                <td></td>
+                <td>Friday, 24 July 2013</td>
+            </tr>
+            <tr data-path="/Images/Icons/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Carve</td>
+                <td></td>
+                <td>Friday, 24 July 2013</td>
+            </tr>
+            <tr data-path="/Images/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Stain</td>
+                <td></td>
+                <td>Friday, 24 July 2013</td>
+            </tr>
+            <tr data-path="/Images/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Sand</td>
+                <td></td>
+                <td>Friday, 24 July 2013</td>
+            </tr>
+            <tr data-path="/Images/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Color</td>
+                <td></td>
+                <td>Friday, 24 July 2013</td>
+            </tr>
+            <tr data-path="/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Pick</td>
+                <td></td>
+                <td>Friday, 24 July 2013 </td>
+            </tr>
+            <tr data-path="/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Place</td>
+                <td></td>
+                <td>Friday, 24 July 2013 </td>
+            </tr>
+            <tr data-path="/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
+                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Ungrasp</td>
+                <td></td>
+                <td>Friday, 24 July 2013 </td>
+            </tr>
+
+        </table>
+        </div>
+        <div class="col-md-3 text-center" style="border: 2px solid black">
+            <h1>Details</h1>
+            <p class="lead">Put some details here
+        </div>
+    
+
+        
+        
+    </div>
+    <!-- /.container -->
+    
+    <!-- Planner output; will eventually be sent as a variable from the planner -->
+    <div id="plannerOutput" style="visibility:hidden">
+  0.000: (goto robot t_main table_a) [4.0]
+  0.000: (goto human t_main table_a) [6.667]
+  4.001: (pickup robot left a2 table_a) [2.0]
+  6.001: (goto robot table_a t_main) [4.0]
+  6.668: (pickup human left a1 table_a) [1.0]
+  7.668: (goto human table_a t_main) [6.667]
+ 10.001: (putdown robot left a2 t_main) [2.0]
+ 12.001: (goto robot t_main table_b) [6.0]
+ 14.334: (putdown human left a1 t_main) [1.0]
+ 15.334: (goto human t_main table_a) [6.667]
+ 18.001: (pickup robot left b2 table_b) [2.0]
+ 20.001: (goto robot table_b t_main) [6.0]
+ 22.002: (goto human table_a t_main) [6.667]
+ 26.001: (putdown robot left b2 t_main) [2.0]
+ 28.001: (goto robot t_main table_b) [6.0]
+ 28.670: (goto human t_main table_b) [10.0]
+ 34.001: (pickup robot left b1 table_b) [2.0]
+ 36.001: (goto robot table_b t_main) [6.0]
+ 42.001: (putdown robot left b1 t_main) [2.0]
+    </div>
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.finderselect/0.6.0/jquery.finderselect.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+</body>
+
+</html>
