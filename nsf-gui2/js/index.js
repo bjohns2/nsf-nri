@@ -86,7 +86,8 @@ function drawChart() {
     
     // Get the planner output to display, break it down, and send it to
     // be added to the datatable
-    var plannerOutput = $("#plannerOutput").html().split("\n");
+    var plannerOutput = $("#plannerOutput").val().split("\n");
+    console.log(plannerOutput);
     for (var i=1;i<plannerOutput.length-1;i++){
         plannerLineToDict(plannerOutput[i]);
     }

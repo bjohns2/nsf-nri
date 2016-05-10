@@ -91,98 +91,18 @@
 
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h1>A Bootstrap Starter Template</h1>
-                <p class="lead">Complete with pre-defined file paths that you won't have to change!</p>
+                <h1>Hi Joe</h1>
+                <p class="lead">Here is a timeline for you</p>
             </div>
         </div>
         <!-- /.row -->
         
         <div id="timeline" style="height: 180px;"></div>
-
-        <div class="col-md-3 text-center">
-            <div style="border: 2px solid black">
-                <h1>Therbligs</h1>
-                <p class="lead">Put the Therbligs here
-            </div>
-            <div style="border: 2px solid black">
-                <h1>Learned Tasks</h1>
-                <p class="lead">Put the learned tasks here
-            </div>
-        </div>
-        <div class="col-md-6" style="border: 2px solid black">
-            <h1>Timeline</h1>
-            <table class="table table-condensed" id="demo11">
-            <tr data-path="/Images" class="folder">
-                <td colspan="3">
-                    <i class="icon-angle-right icon-fixed-width"></i>
-                    <i class="icon-folder-close icon-fixed-width"></i>
-                    Make Table
-                </td>
-            </tr>
-            <tr data-path="/Images/Icons" class="folder">
-                <td colspan="3">
-                    <i class="icon-angle-right icon-fixed-width"></i>
-                    <i class="icon-folder-close icon-fixed-width"></i>
-                    Make top
-                </td>
-            </tr>
-            </tr>
-            <tr data-path="/Images/Icons/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Draw Image</td>
-                <td></td>
-                <td>Friday, 24 July 2013</td>
-            </tr>
-            <tr data-path="/Images/Icons/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Carve</td>
-                <td></td>
-                <td>Friday, 24 July 2013</td>
-            </tr>
-            <tr data-path="/Images/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Stain</td>
-                <td></td>
-                <td>Friday, 24 July 2013</td>
-            </tr>
-            <tr data-path="/Images/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Sand</td>
-                <td></td>
-                <td>Friday, 24 July 2013</td>
-            </tr>
-            <tr data-path="/Images/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Color</td>
-                <td></td>
-                <td>Friday, 24 July 2013</td>
-            </tr>
-            <tr data-path="/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Pick</td>
-                <td></td>
-                <td>Friday, 24 July 2013 </td>
-            </tr>
-            <tr data-path="/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Place</td>
-                <td></td>
-                <td>Friday, 24 July 2013 </td>
-            </tr>
-            <tr data-path="/hello.png" class="file" data-url="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png">
-                <td><i class="icon-fixed-width icon-none"></i> <i class="icon-file icon-fixed-width"></i> Ungrasp</td>
-                <td></td>
-                <td>Friday, 24 July 2013 </td>
-            </tr>
-
-        </table>
-        </div>
-        <div class="col-md-3 text-center" style="border: 2px solid black">
-            <h1>Details</h1>
-            <p class="lead">Put some details here
-        </div>
-    
-
         
-        
-    </div>
-    <!-- /.container -->
-    
-    <!-- Planner output; will eventually be sent as a variable from the planner -->
-            <textarea id="plannerOutput" style="visibility:hidden" rows="20" cols="50">
+        <button onclick="drawChart()">Refresh Timeline</button>
+        <br>
+
+        <textarea id="plannerOutput" rows="20" cols="50">
             
   0.000: (goto robot t_main table_a) [4.0]
   0.000: (goto human t_main table_a) [6.667]
@@ -204,6 +124,17 @@
  36.001: (goto robot table_b t_main) [6.0]
  42.001: (putdown robot left b1 t_main) [2.0]
         </textarea>
+    
+
+        
+        
+    </div>
+    <!-- /.container -->
+    
+    <!-- Planner output; will eventually be sent as a variable from the planner -->
+    <div id="plannerOutput" style="visibility:hidden">
+
+    </div>
 
     <!-- jQuery Version 1.11.1 -->
     <script src="js/jquery.js"></script>
