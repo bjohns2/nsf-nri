@@ -88,7 +88,7 @@ function drawChart() {
     // be added to the datatable
     var plannerOutput = $("#plannerOutput").val().split("\n");
     console.log(plannerOutput);
-    for (var i=1;i<plannerOutput.length-1;i++){
+    for (var i=0;i<plannerOutput.length-1;i++){
         plannerLineToDict(plannerOutput[i]);
     }
   
